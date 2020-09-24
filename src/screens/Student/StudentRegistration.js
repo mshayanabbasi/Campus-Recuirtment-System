@@ -124,7 +124,7 @@ const StudentRegistration = (props) => {
   //   });
   //   // }
   // };
-  // console.log('form', props.currentUser);
+  // console.log('form', props.currentUser);  
   return (
     <>
       {props.currentUser ? (

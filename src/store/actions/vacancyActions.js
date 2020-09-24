@@ -1,7 +1,9 @@
 import {
   DELETE_VACANCY,
+  ERROR_POST_COMPANY,
   NEW_VACANCIES,
   PERVIOUS_DATA_OF_VACANCIES,
+  REMOVE_ERROR_MESSAGES_POST_COMPANY,
 } from '../Types';
 import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
@@ -44,5 +46,17 @@ export const prevDataOfVacancies = () => {
         }
         dispatch({type: PERVIOUS_DATA_OF_VACANCIES, dataP: TemArr});
       });
+  };
+};
+
+export const RemoveErrorMessagesPC = () => {
+  return (dispatch) => {
+    dispatch({type: REMOVE_ERROR_MESSAGES_POST_COMPANY});
+  };
+};
+
+export const ErrorPC = () => {
+  return (dispatch) => {
+    dispatch({type: ERROR_POST_COMPANY, errorMessagePC: mess});
   };
 };

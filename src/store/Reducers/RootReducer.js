@@ -3,13 +3,13 @@ import AdminReducer from './AdminReducer';
 import {combineReducers} from 'redux';
 import StudentReducer from './StudentReducer';
 import CompanyReducer from './CompanyReducer';
-import VacanyReducer from './vacanyReducer';
+import VacanyReducer from './vacancyReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   student: StudentReducer,
   company: CompanyReducer,
-  vacany: VacanyReducer,
+  vacancy: VacanyReducer,
   // admin: AdminReducer,
 });
 

@@ -9,8 +9,11 @@ const SignIn = (props) => {
   console.log('SignIn', props);
   signIn = (email, password) => {
     props.signIn(email, password);
-
-    props.navigation.navigate('StudentRegistration');
+    if (props.type === 'student') {
+      props.navigation.navigate('Students');
+    } else if (props.type === 'company') {
+      props.navigation.navigate('Company');
+    }
   };
   return (
     <Formik

@@ -1,29 +1,29 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
 import {Card, ListItem, Text} from 'react-native-elements';
+import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
-
-const Companies = (props) => {
+const Student = (props) => {
   console.log(props);
-  // const details = (id) => {
-  //   // props.navigation.navigate();
-  // };
   return (
     <>
       {props.currentUser ? (
         <View>
           {props.type === 'admin' ? (
-            props.allCompanies.length > 0 ? (
+            props.allStudents.length > 0 ? (
               <Card>
-                <Text>All Companies</Text>
+                <Text>All Students</Text>
                 <FlatList
-                  data={props.allCompanies}
-                  keyExtractor={(item) => item.companyID}
+                  data={props.allStudents}
+                  keyExtractor={(item) => item.userId}
                   renderItem={({item}) => {
+                    console.log(item);
                     return (
                       <ListItem>
                         <ListItem.Content>
-                          <ListItem.Title>{item.cname}</ListItem.Title>
+                          <ListItem.Title>{item.firstName}</ListItem.Title>
+                          <ListItem.Subtitle>
+                            {item.department}
+                          </ListItem.Subtitle>
                         </ListItem.Content>
                       </ListItem>
                     );
@@ -32,20 +32,21 @@ const Companies = (props) => {
               </Card>
             ) : (
               <View>
-                <Text>Sorry, No Company Available</Text>
+                <Text>Sorry, No Student Available</Text>
               </View>
             )
-          ) : props.unBlockedCompanies.length > 0 ? (
+          ) : props.unBlockedStudents.length > 0 ? (
             <Card>
-              <Text>All Companies</Text>
+              <Text>All Students</Text>
               <FlatList
-                data={props.allCompanies}
-                keyExtractor={(item) => item.companyID}
+                data={props.allStudents}
+                keyExtractor={(item) => item.userId}
                 renderItem={({item}) => {
                   return (
                     <ListItem>
                       <ListItem.Content>
-                        <ListItem.Title>{item.cname}</ListItem.Title>
+                        <ListItem.Title>{item.firstName}</ListItem.Title>
+                        <ListItem.Subtitle>{item.department}</ListItem.Subtitle>
                       </ListItem.Content>
                     </ListItem>
                   );
@@ -54,7 +55,7 @@ const Companies = (props) => {
             </Card>
           ) : (
             <View>
-              <Text>Sorry, No Company Available</Text>
+              <Text>Sorry, No Student Available</Text>
             </View>
           )}
         </View>
@@ -64,13 +65,14 @@ const Companies = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const unBlockedCompanies = state.company.allCompanies.filter((v) => !v.block);
+  const unBlockedStudents = state.student.allStudents.filter((v) => !v.block);
+
   return {
-    type: state.auth.type,
-    allCompanies: state.company.allCompanies,
+    allStudents: state.student.allStudents,
     currentUser: state.auth.currentUser,
-    unBlockedCompanies,
+    unBlockedStudents,
+    type: state.auth.type,
   };
 };
 
-export default connect(mapStateToProps)(Companies);
+export default connect(mapStateToProps)(Student);

@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import StudentRegistration from '../screens/Student/StudentRegistration';
 import Companies from '../screens/Company/Companies';
 import {CURRENTUSER} from '../store/actions/authActions';
+import Students from '../screens/Student/Students';
 
 const AppNavigation = (props) => {
   React.useEffect(() => {
@@ -21,9 +22,9 @@ const AppNavigation = (props) => {
         <Stack.Screen name="SignUp" component={SignUp} />
 
         <Stack.Screen
-          name="StudentRegistration"
-          component={StudentRegistration}
-          options={{title: 'Student Registration'}}
+          name="Students"
+          component={Students}
+          options={{title: 'Students'}}
         />
 
         {props.type === 'company' ? (
