@@ -9,7 +9,7 @@ import {
 
 const initState = {
   laoding: false,
-  type: 'student',
+  type: [],
   currentUser: null,
   errorMessage: '',
   typeErr: false,
