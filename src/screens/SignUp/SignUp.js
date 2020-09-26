@@ -48,14 +48,14 @@ const SignUp = (props) => {
             secureTextEntry
           />
           <Picker
-            prompt="Select a Category"
+            mode="dialog"
+            enabled 
             selectedValue={values.selectedValue}
             style={{height: 50, width: 200}}
             onValueChange={(itemValue, itemIndex) => {
               setFieldValue('selectedValue', itemValue);
               handleChange('selectedValue');
             }}>
-            <Picker.Item label="Please select a value" value="" />
             <Picker.Item label="Student" value="student" />
             <Picker.Item label="Company" value="company" />
             <Picker.Item label="Admin" value="admin" />
@@ -65,7 +65,7 @@ const SignUp = (props) => {
             <Text style={{fontSize: 18}}>
               Already have an Account?
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('SignIn')}>
+                onPress={() => props.navigation.navigate('Sign In')}>
                 <Text style={{fontSize: 18}}>Sign In</Text>
               </TouchableOpacity>
             </Text>

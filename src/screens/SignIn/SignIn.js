@@ -9,11 +9,11 @@ const SignIn = (props) => {
   console.log('SignIn', props);
   signIn = (email, password) => {
     props.signIn(email, password);
-    if (props.type === 'student') {
-      props.navigation.navigate('Students');
-    } else if (props.type === 'company') {
-      props.navigation.navigate('Company');
-    }
+    // if (props.type === 'student') {
+    //   props.navigation.navigate('Students');
+    // } else if (props.type === 'company') {
+    //   props.navigation.navigate('Company');
+    // }
   };
   return (
     <Formik
@@ -45,7 +45,7 @@ const SignIn = (props) => {
           <Text>
             Do You Have an Account?
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('SignUp')}>
+              onPress={() => props.navigation.navigate('Sign Up')}>
               <Text>Sign Up</Text>
             </TouchableOpacity>
           </Text>
