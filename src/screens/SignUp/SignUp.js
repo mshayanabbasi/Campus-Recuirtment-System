@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text, Input, Button, Card} from 'react-native-elements';
 import {Formik} from 'formik';
-import {Picker} from '@react-native-community/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {connect} from 'react-redux';
 import '../../config/firebaseConfig';
 import {SIGNUP} from '../../store/actions/authActions';
@@ -47,9 +47,28 @@ const SignUp = (props) => {
             placeholder="Password"
             secureTextEntry
           />
-          <Picker
+          <DropDownPicker
+            items={[
+              {label: 'Student', value: 'student'},
+              {label: 'Company', value: 'company'},
+              {
+                label: 'Admin',
+                value: 'admin',
+              },
+            ]}
+            dropDownStyle={{backgroundColor: '#fafafa'}}
+            defaultValue={values.selectedValue}
+            containerStyle={{height: 40}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            onChangeItem={(item) => {
+              console.log(item);
+            }}
+          />
+          {/* <Picker
             mode="dialog"
-            enabled 
+            enabled
             selectedValue={values.selectedValue}
             style={{height: 50, width: 200}}
             onValueChange={(itemValue, itemIndex) => {
@@ -59,7 +78,7 @@ const SignUp = (props) => {
             <Picker.Item label="Student" value="student" />
             <Picker.Item label="Company" value="company" />
             <Picker.Item label="Admin" value="admin" />
-          </Picker>
+          </Picker> */}
           <Button onPress={handleSubmit} title="Sign Up" />
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <Text style={{fontSize: 18}}>
