@@ -7,8 +7,15 @@ import {LOGIN} from '../../store/actions/authActions';
 
 const SignIn = (props) => {
   console.log('SignIn', props);
-  signIn = (email, password) => {
-    props.signIn(email, password);
+  signIn = (data) => {
+    const {email, password} = data;
+    console.log(data);
+    const obj = {
+      email,
+      password,
+    };
+    const navi = props.navigation;
+    props.signIn(obj, navi);
     // if (props.type === 'student') {
     //   props.navigation.navigate('Students');
     // } else if (props.type === 'company') {
@@ -21,7 +28,7 @@ const SignIn = (props) => {
         email: '',
         password: '',
       }}
-      onSubmit={(values) => signIn(values.email, values.password)}>
+      onSubmit={(values) => signIn(values)}>
       {({handleChange, handleSubmit, values}) => (
         <Card>
           <Text h4>Campus Recuritment System</Text>
@@ -64,7 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (email, password) => dispatch(LOGIN(email, password)),
+    signIn: (a, b) => dispatch(LOGIN(a, b)),
   };
 };
 

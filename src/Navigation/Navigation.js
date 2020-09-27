@@ -12,33 +12,35 @@ import {Button} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const AppNavigation = (props) => {
+  const [value, setValue] = React.useState('');
   React.useEffect(() => {
-    let asyncs = AsyncStorage.getItem('user');
-    let data = JSON.parse(asyncs);
-    console.log(data);
+    // AsyncStorage.getItem('user').then((response) => setValue(response));
   }, []);
-  // const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   console.log('navigation', props);
-  // const handleSignIn = () => {
-  //   setIsAuthenticated(true);
-  // };
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn">
         {
-          props.isAuthenticated && props.isAuthenticated ? (
-            props.user.type && props.user.type === 'company' ? (
+          value ? (
+            // props.user.type && props.user.type === 'company' ? (
+            <>
+              <Stack.Screen
+                name="StudentRegistration"
+                component={StudentRegistration}
+              />
               <Stack.Screen
                 name="Student"
                 component={Students}
                 options={{
                   headerRight: () => (
-                    <Button title="Sign Out" onPress={props.signOut} />
+                    <Button
+                      title="Sign Out"
+                      onPress={props.signOut(props.navigation)}
+                    />
                   ),
                 }}
               />
-            ) : props.type === 'student' ? (
               <Stack.Screen
                 name="Company"
                 component={Companies}
@@ -48,8 +50,11 @@ const AppNavigation = (props) => {
                   ),
                 }}
               />
-            ) : null
+            </>
           ) : (
+            // ) : props.type === 'student' ? (
+
+            // ) : null
             <>
               <Stack.Screen name="Sign In">
                 {(props) => <SignIn {...props} />}
@@ -75,7 +80,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     CurrentUser: () => dispatch(CURRENTUSER()),
-    signOut: () => dispatch(SIGNOUT()),
+    signOut: () => dispatch(SIGNOUT(a)),
   };
 };
 

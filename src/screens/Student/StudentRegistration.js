@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 // import { UpdationRequest } from '../../store/actions/adminActions';
 import {addNewStudent} from '../../store/actions/studentActions';
 import {Formik} from 'formik';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const StudentRegistration = (props) => {
   console.log('Navigate', props);
@@ -24,63 +25,71 @@ const StudentRegistration = (props) => {
   });
   //didmount
   useEffect(() => {
-    // console.log(props.currentUser.email);
-    setState({...state, email: props.currentUser.email});
-    if (props.currentUser) {
-      const userID = props.currentUser.uid;
-      console.log(userID);
-      if (props.allStudents) {
-        props.allStudents.forEach((stu) => {
-          if (stu.userId === userID) {
-            setState({
-              ...state,
-              Name: stu.firstName,
-              LName: stu.lastName,
-              Age: stu.age,
-              Gender: stu.gender,
-              Phone: stu.phoneNumber,
-              Email: stu.email,
-              Skills: stu.skills,
-              Department: stu.department,
-              Qualification: stu.qualification,
-              edit: true,
-              editID: stu.id,
-              block: stu.block,
-            });
-          }
-        });
-      }
-    }
+    AsyncStorage.getItem('user').then((response) =>
+      console.log('response', response)
+      // setState({
+      //   ...state,
+      //   Email: JSON.parse(response),
+      // }),
+      // console.log('email', state.Email),
+    );
+    // console.log(state.Email.email);
+    // setState({...state, email: props.currentUser.email});
+    // if (props.currentUser) {
+    //   const userID = props.users.uid;
+    //   console.log(userID);
+    //   if (props.allStudents) {
+    //     props.allStudents.forEach((stu) => {
+    //       if (stu.userId === userID) {
+    //         setState({
+    //           ...state,
+    //           Name: stu.firstName,
+    //           LName: stu.lastName,
+    //           Age: stu.age,
+    //           Gender: stu.gender,
+    //           Phone: stu.phoneNumber,
+    //           Email: stu.email,
+    //           Skills: stu.skills,
+    //           Department: stu.department,
+    //           Qualification: stu.qualification,
+    //           edit: true,
+    //           editID: stu.id,
+    //           block: stu.block,
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
   }, []);
   // willrecieveprops
-  useEffect(() => {
-    console.log(props.currentUser);
-    if (props.currentUser) {
-      const userID = props.currentUser.uid;
-      console.log(userID);
-      if (props.allStudents) {
-        props.allStudents.forEach((stu) => {
-          if (stu.userId === userID) {
-            setState({
-              ...state,
-              Name: stu.firstName,
-              LName: stu.lastName,
-              Age: stu.age,
-              Gender: stu.gender,
-              Phone: stu.phoneNumber,
-              Email: stu.email,
-              Skills: stu.skills,
-              Department: stu.department,
-              Qualification: stu.qualification,
-              edit: true,
-              editID: stu.id,
-              block: stu.block,
-            });
-          }
-        });
-      }
-    }
-  }, [props.currentUser, props.allStudents]);
+  // useEffect(() => {
+  //   console.log(props.currentUser);
+  //   if (props.currentUser) {
+  //     const userID = props.currentUser.uid;
+  //     console.log(userID);
+  //     if (props.allStudents) {
+  //       props.allStudents.forEach((stu) => {
+  //         if (stu.userId === userID) {
+  //           setState({
+  //             ...state,
+  //             Name: stu.firstName,
+  //             LName: stu.lastName,
+  //             Age: stu.age,
+  //             Gender: stu.gender,
+  //             Phone: stu.phoneNumber,
+  //             Email: stu.email,
+  //             Skills: stu.skills,
+  //             Department: stu.department,
+  //             Qualification: stu.qualification,
+  //             edit: true,
+  //             editID: stu.id,
+  //             block: stu.block,
+  //           });
+  //         }
+  //       });
+  //     }
+  //   }
+  // }, [props.currentUser, props.allStudents]);
   // onAdd = (
   //   firstName,
   //   lastName,
@@ -124,82 +133,80 @@ const StudentRegistration = (props) => {
   //   });
   //   // }
   // };
-  // console.log('form', props.currentUser);  
+  // console.log('form', props.currentUser);
   return (
     <>
-      {props.currentUser ? (
-        <>
-          {state.edit ? null : <Text>Campus Recuirtment System</Text>}
-          <Formik
-            initialValues={{
-              name: state.Name,
-              lname: state.LName,
-              age: state.Age,
-              skills: state.Skills,
-              department: state.Department,
-              phone: state.Phone,
-              gender: state.Gender,
-            }}
-            onSubmit={(values) => console.log(values)}>
-            {({handleChange, handleSubmit, values}) => {
-              <Card>
-                <Text h4>Student Registration Form</Text>
+      <>
+        {state.edit ? null : <Text>Campus Recuirtment System</Text>}
+        <Formik
+          initialValues={{
+            name: '',
+            lname: '',
+            age: '',
+            skills: '',
+            department: '',
+            phone: '',
+            gender: '',
+          }}
+          onSubmit={(values) => console.log(values)}>
+          {({handleChange, handleSubmit, values}) => {
+            <Card>
+              <Text h4>Student Registration Form</Text>
+              <Input
+                value={values.name}
+                placeholder="First Name"
+                onChangeText={handleChange('name')}
+              />
+              <Input
+                value={values.lname}
+                placeholder="Last Name"
+                onChangeText={handleChange('lname')}
+              />
+              <Input
+                value={values.age}
+                placeholder="Age"
+                onChangeText={handleChange('age')}
+              />
+              <Input
+                value={values.skills}
+                placeholder="Skills"
+                onChangeText={handleChange('skills')}
+              />
+              <Input
+                value={values.phone}
+                placeholder="Phone Number"
+                onChangeText={handleChange('phone')}
+              />
+              {state.edit ? null : (
                 <Input
-                  value={values.name}
-                  placeholder="First Name"
-                  onChangeText={handleChange('name')}
+                  value={values.department}
+                  placeholder="Department"
+                  onChangeText={handleChange('department')}
                 />
+              )}
+              {state.edit ? null : (
                 <Input
-                  value={values.lname}
-                  placeholder="Last Name"
-                  onChangeText={handleChange('lname')}
+                  value={values.gender}
+                  placeholder="Gender"
+                  onChangeText={handleChange('gender')}
                 />
-                <Input
-                  value={values.age}
-                  placeholder="Age"
-                  onChangeText={handleChange('age')}
-                />
-                <Input
-                  value={values.skills}
-                  placeholder="Skills"
-                  onChangeText={handleChange('skills')}
-                />
-                <Input
-                  value={values.phone}
-                  placeholder="Phone Number"
-                  onChangeText={handleChange('phone')}
-                />
-                {state.edit ? null : (
-                  <Input
-                    value={values.department}
-                    placeholder="Department"
-                    onChangeText={handleChange('department')}
-                  />
-                )}
-                {state.edit ? null : (
-                  <Input
-                    value={values.gender}
-                    placeholder="Gender"
-                    onChangeText={handleChange('gender')}
-                  />
-                )}
-                {state.edit ? (
-                  <Button title="Update Request" />
-                ) : (
-                  <Button title="Register" onPress={handleSubmit} />
-                )}
-              </Card>;
-            }}
-          </Formik>
-        </>
-      ) : null}
+              )}
+              {state.edit ? (
+                <Button title="Update Request" />
+              ) : (
+                <Button title="Register" onPress={handleSubmit} />
+              )}
+            </Card>;
+          }}
+        </Formik>
+      </>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.auth.currentUser,
+    user: state.auth.user,
     allStudents: state.student.allStudents,
     type: state.auth.type,
   };

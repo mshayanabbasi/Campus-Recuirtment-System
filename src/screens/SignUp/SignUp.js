@@ -12,14 +12,14 @@ const SignUp = (props) => {
   console.log('SignUp', props);
   signUp = (data) => {
     const {name, email, password, selectedValue} = data;
-    console.log(data);
+    // console.log(data);
     const obj = {
       name,
       email,
       password,
       type: selectedValue,
     };
-    const navi = props.navigation.navigate;
+    const navi = props.navigation;
     props.signUp(obj, navi);
   };
   return (
@@ -107,7 +107,7 @@ const SignUp = (props) => {
 const mapStateToProps = (state) => {
   return {
     signUpUser: state.auth.signUpUser,
-    type: state.auth.type,
+    // type: state.auth.type, 
   };
 };
 

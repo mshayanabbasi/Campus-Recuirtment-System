@@ -9,14 +9,7 @@ import {
 
 const initState = {
   user: {},
-  laoding: false,
   type: '',
-  currentUser: null,
-  errorMessage: '',
-  typeErr: false,
-  logInUser: null,
-  signUpUser: {},
-  isAuthenticated: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -26,37 +19,16 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.payload,
-        isAuthenticated: true,
       };
-
     case LOGIN_SUCCESS:
       return {
         ...state,
         user: action.payload,
-        isAuthenticated: true,
-      };
-    case CURRENT_USER_LOADING:
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    case CURRENT_USER_SUCCESS:
-      return {
-        ...state,
-        type: action.userType,
-        currentUser: action.currentUser,
-        isAuthenticated: true,
-      };
-    case CURRENT_USER_FAILED:
-      return {
-        ...state,
-        type: '',
-        currentUser: null,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        isAuthenticated: false,
+        user: {},
         type: '',
       };
     default:

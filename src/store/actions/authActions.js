@@ -13,8 +13,13 @@ import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export const LOGIN = (email, password) => {
+export const LOGIN = ({email, password}, navigate) => {
+  const obj = {
+    email,
+    password,
+  };
   return (dispatch) => {
+    console.log(obj);
     dispatch({type: LOGIN_LOADING});
     try {
       firebase
@@ -32,14 +37,14 @@ export const LOGIN = (email, password) => {
             speedRef.on('value', (snapshot) => {
               typeCheck = snapshot.val().type;
               if (typeCheck === 'student') {
-                console.log('Successfully');
+                navigate('Student');
               }
               if (typeCheck === 'company') {
-                console.log('Successfully Sign In company');
+                navigate('Company');
               }
             });
           }
-          dispatch({type: LOGIN_SUCCESS, payload: data});
+          dispatch({type: LOGIN_SUCCESS, payload: {obj, navigate}});
         });
     } catch (error) {
       dispatch({type: LOGIN_FAILED, payload: error});
@@ -67,19 +72,19 @@ export const SIGNUP = ({name, email, password, type}, navigate) => {
         ref.child('user' + '/' + firebase.auth().currentUser.uid).set({
           ...obj,
         });
-        const asybc = AsyncStorage.setItem('user', JSON.stringify(obj));
-        console.log(asybc);
+        AsyncStorage.setItem('user', JSON.stringify(obj));
+
         if (type === 'student') {
           navigate('Company');
         }
         if (type === 'company') {
-          navigate('Student');
+          navigate('StudentRegistration');
         }
 
         name = '';
         email = '';
         password = '';
-        dispatch({type: SIGNUP_SUCCESS, payload: obj});
+        dispatch({type: SIGNUP_SUCCESS, payload: {obj, navigate}});
       })
       .catch((error) => {
         dispatch({type: SIGNUP_FAILED, payload: error});
@@ -87,11 +92,15 @@ export const SIGNUP = ({name, email, password, type}, navigate) => {
   };
 };
 
-export const SIGNOUT = () => {
+export const SIGNOUT = (navigate) => {
   return (dispatch) => {
     dispatch({type: LOGOUT_LOADING});
     try {
       firebase.auth().signOut();
+      AsyncStorage.removeItem('user').then((response) =>
+        console.log('success'),
+      );
+      navigate('Sign In');
       dispatch({type: LOGOUT_SUCCESS});
     } catch (error) {
       dispatch({type: LOGOUT_FAILED});
