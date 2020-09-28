@@ -8,8 +8,7 @@ import {
 } from '../Types';
 
 const initState = {
-  user: {},
-  type: '',
+  user: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -25,11 +24,15 @@ const authReducer = (state = initState, action) => {
         ...state,
         user: action.payload,
       };
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        user: action.payload,
+      };
     case LOGOUT_SUCCESS:
       return {
         ...state,
         user: {},
-        type: '',
       };
     default:
       return state;

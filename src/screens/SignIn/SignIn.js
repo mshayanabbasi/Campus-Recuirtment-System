@@ -14,12 +14,12 @@ const SignIn = (props) => {
       email,
       password,
     };
-    const navi = props.navigation;
-    props.signIn(obj, navi);
-    // if (props.type === 'student') {
-    //   props.navigation.navigate('Students');
-    // } else if (props.type === 'company') {
+    const navi = props.navigation.navigate;
+    props.signIn(obj,navi);
+    // if (props.user.type === 'student') {
     //   props.navigation.navigate('Company');
+    // } else if (props.user.type === 'company') {
+    //   props.navigation.navigate('Student');
     // }
   };
   return (
@@ -31,7 +31,9 @@ const SignIn = (props) => {
       onSubmit={(values) => signIn(values)}>
       {({handleChange, handleSubmit, values}) => (
         <Card>
-          <Text h4>Campus Recuritment System</Text>
+          <Text style={{fontSize: 22, fontWeight: 'bold'}}>
+            Campus Recuritment System
+          </Text>
           <Text
             h4
             style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
@@ -64,8 +66,7 @@ const SignIn = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    logInUser: state.auth.logInUser,
-    type: state.auth.type,
+    user: state.auth.user,
   };
 };
 

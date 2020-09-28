@@ -19,7 +19,7 @@ export const LOGIN = ({email, password}, navigate) => {
     password,
   };
   return (dispatch) => {
-    console.log(obj);
+    // console.log(obj);
     dispatch({type: LOGIN_LOADING});
     try {
       firebase
@@ -36,15 +36,15 @@ export const LOGIN = ({email, password}, navigate) => {
             const speedRef = database.child('user/' + userId);
             speedRef.on('value', (snapshot) => {
               typeCheck = snapshot.val().type;
-              if (typeCheck === 'student') {
-                navigate('Student');
-              }
-              if (typeCheck === 'company') {
-                navigate('Company');
-              }
+              // if (typeCheck === 'student') {
+              //   navigate('Company');
+              // }
+              // if (typeCheck === 'company') {
+              //   navigate('Student');
+              // }
             });
           }
-          dispatch({type: LOGIN_SUCCESS, payload: {obj, navigate}});
+          dispatch({type: LOGIN_SUCCESS, payload: obj});
         });
     } catch (error) {
       dispatch({type: LOGIN_FAILED, payload: error});
@@ -52,7 +52,7 @@ export const LOGIN = ({email, password}, navigate) => {
   };
 };
 
-export const SIGNUP = ({name, email, password, type}, navigate) => {
+export const SIGNUP = ({name, email, password, type}) => {
   const obj = {
     name,
     email,
@@ -74,17 +74,17 @@ export const SIGNUP = ({name, email, password, type}, navigate) => {
         });
         AsyncStorage.setItem('user', JSON.stringify(obj));
 
-        if (type === 'student') {
-          navigate('Company');
-        }
-        if (type === 'company') {
-          navigate('StudentRegistration');
-        }
+        // if (type === 'student') {
+        //   // navigate('StudentRegistration');
+        // }
+        // if (type === 'company') {
+        //   // navigate('StudentRegistration');
+        // }
 
         name = '';
         email = '';
         password = '';
-        dispatch({type: SIGNUP_SUCCESS, payload: {obj, navigate}});
+        dispatch({type: SIGNUP_SUCCESS, payload: obj});
       })
       .catch((error) => {
         dispatch({type: SIGNUP_FAILED, payload: error});
@@ -92,18 +92,29 @@ export const SIGNUP = ({name, email, password, type}, navigate) => {
   };
 };
 
-export const SIGNOUT = (navigate) => {
+export const SIGNOUT = () => {
   return (dispatch) => {
     dispatch({type: LOGOUT_LOADING});
     try {
-      firebase.auth().signOut();
-      AsyncStorage.removeItem('user').then((response) =>
-        console.log('success'),
-      );
-      navigate('Sign In');
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          AsyncStorage.removeItem('user')
+            .then((response) => console.log('success'))
+            .catch((err) => console.log(err));
+          // navigate('Sign In');
+        });
+
       dispatch({type: LOGOUT_SUCCESS});
     } catch (error) {
       dispatch({type: LOGOUT_FAILED});
     }
+  };
+};
+
+export const UpdateUser = (data) => {
+  return (dispatch) => {
+    dispatch({type: 'UPDATE_USER', payload: data});
   };
 };

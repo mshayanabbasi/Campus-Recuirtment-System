@@ -19,21 +19,24 @@ const SignUp = (props) => {
       password,
       type: selectedValue,
     };
-    const navi = props.navigation;
-    props.signUp(obj, navi);
+    // const navi = props.navigation;
+    props.signUp(obj);
   };
+  console.log(props.user);
   return (
     <Formik
       initialValues={{
         name: '',
         email: '',
         password: '',
-        selectedValue: props.type,
+        selectedValue: '',
       }}
       onSubmit={(values) => signUp(values)}>
       {({handleChange, handleSubmit, values, setFieldValue}) => (
         <Card>
-          <Text h4>Campus Recuritment System</Text>
+          <Text style={{fontSize: 22, fontWeight: 'bold'}}>
+            Campus Recuritment System
+          </Text>
           <Text
             h4
             style={{textAlign: 'center', marginTop: 10, marginBottom: 10}}>
@@ -55,7 +58,7 @@ const SignUp = (props) => {
             placeholder="Password"
             secureTextEntry
           />
-          {/* <DropDownPicker
+          <DropDownPicker
             items={[
               {label: 'Admin', value: 'admin'},
               {label: 'Student', value: 'student'},
@@ -74,8 +77,8 @@ const SignUp = (props) => {
               setFieldValue('selectedValue', item.value);
               handleChange('selectedValue');
             }}
-          /> */}
-          <Picker
+          />
+          {/* <Picker
             mode="dialog"
             enabled
             selectedValue={values.selectedValue}
@@ -87,7 +90,7 @@ const SignUp = (props) => {
             <Picker.Item label="Student" value="student" />
             <Picker.Item label="Company" value="company" />
             <Picker.Item label="Admin" value="admin" />
-          </Picker>
+          </Picker> */}
           <Button onPress={handleSubmit} title="Sign Up" />
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <Text style={{fontSize: 18}}>
@@ -106,8 +109,7 @@ const SignUp = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    signUpUser: state.auth.signUpUser,
-    // type: state.auth.type, 
+    user: state.auth.user,
   };
 };
 

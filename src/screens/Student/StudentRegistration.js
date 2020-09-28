@@ -9,30 +9,30 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const StudentRegistration = (props) => {
   console.log('Navigate', props);
-  const [state, setState] = useState({
-    Name: '',
-    LName: '',
-    Age: '',
-    Gender: '',
-    Phone: '',
-    Email: '',
-    Qualification: '',
-    Skills: '',
-    Department: '',
-    edit: false,
-    editID: '',
-    block: false,
-  });
+  // const [state, setState] = useState({
+  //   Name: '',
+  //   LName: '',
+  //   Age: '',
+  //   Gender: '',
+  //   Phone: '',
+  //   Email: '',
+  //   Qualification: '',
+  //   Skills: '',
+  //   Department: '',
+  //   edit: false,
+  //   editID: '',
+  //   block: false,
+  // });
   //didmount
-  useEffect(() => {
-    AsyncStorage.getItem('user').then((response) =>
-      console.log('response', response)
-      // setState({
-      //   ...state,
-      //   Email: JSON.parse(response),
-      // }),
-      // console.log('email', state.Email),
-    );
+  // useEffect(() => {
+  //   AsyncStorage.getItem('user').then(
+  //     (response) => console.log('response', response),
+  //     // setState({
+  //     //   ...state,
+  //     //   Email: JSON.parse(response),
+  //     // }),
+  //     // console.log('email', state.Email),
+  //   );
     // console.log(state.Email.email);
     // setState({...state, email: props.currentUser.email});
     // if (props.currentUser) {
@@ -60,7 +60,7 @@ const StudentRegistration = (props) => {
     //     });
     //   }
     // }
-  }, []);
+  // }, []);
   // willrecieveprops
   // useEffect(() => {
   //   console.log(props.currentUser);
@@ -135,72 +135,63 @@ const StudentRegistration = (props) => {
   // };
   // console.log('form', props.currentUser);
   return (
-    <>
-      <>
-        {state.edit ? null : <Text>Campus Recuirtment System</Text>}
-        <Formik
-          initialValues={{
-            name: '',
-            lname: '',
-            age: '',
-            skills: '',
-            department: '',
-            phone: '',
-            gender: '',
-          }}
-          onSubmit={(values) => console.log(values)}>
-          {({handleChange, handleSubmit, values}) => {
-            <Card>
-              <Text h4>Student Registration Form</Text>
-              <Input
-                value={values.name}
-                placeholder="First Name"
-                onChangeText={handleChange('name')}
-              />
-              <Input
-                value={values.lname}
-                placeholder="Last Name"
-                onChangeText={handleChange('lname')}
-              />
-              <Input
-                value={values.age}
-                placeholder="Age"
-                onChangeText={handleChange('age')}
-              />
-              <Input
-                value={values.skills}
-                placeholder="Skills"
-                onChangeText={handleChange('skills')}
-              />
-              <Input
-                value={values.phone}
-                placeholder="Phone Number"
-                onChangeText={handleChange('phone')}
-              />
-              {state.edit ? null : (
-                <Input
-                  value={values.department}
-                  placeholder="Department"
-                  onChangeText={handleChange('department')}
-                />
-              )}
-              {state.edit ? null : (
-                <Input
-                  value={values.gender}
-                  placeholder="Gender"
-                  onChangeText={handleChange('gender')}
-                />
-              )}
-              {state.edit ? (
-                <Button title="Update Request" />
-              ) : (
-                <Button title="Register" onPress={handleSubmit} />
-              )}
-            </Card>;
-          }}
-        </Formik>
-      </>
-    </>
+    <Formik
+      initialValues={{
+        name: '',
+        lname: '',
+        age: '',
+        skills: '',
+        department: '',
+        phone: '',
+        gender: '',
+      }}
+      onSubmit={(values) => console.log(values)}>
+      {({handleChange, handleSubmit, values}) => {
+        <Card>
+          <Text h4>Student Registration Form</Text>
+          <Input
+            value={values.name}
+            placeholder="First Name"
+            onChangeText={handleChange('name')}
+          />
+          <Input
+            value={values.lname}
+            placeholder="Last Name"
+            onChangeText={handleChange('lname')}
+          />
+          <Input
+            value={values.age}
+            placeholder="Age"
+            onChangeText={handleChange('age')}
+          />
+          <Input
+            value={values.skills}
+            placeholder="Skills"
+            onChangeText={handleChange('skills')}
+          />
+          <Input
+            value={values.phone}
+            placeholder="Phone Number"
+            onChangeText={handleChange('phone')}
+          />
+          <Input
+            value={values.department}
+            placeholder="Department"
+            onChangeText={handleChange('department')}
+          />
+          <Input
+            value={values.gender}
+            placeholder="Gender"
+            onChangeText={handleChange('gender')}
+          />
+          {state.edit ? (
+            <Button title="Update Request" />
+          ) : (
+            <Button title="Register" onPress={handleSubmit} />
+          )}
+        </Card>;
+      }}
+    </Formik>
   );
 };
 
@@ -208,7 +199,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     allStudents: state.student.allStudents,
-    type: state.auth.type,
+    // type: state.auth.type,
   };
 };
 

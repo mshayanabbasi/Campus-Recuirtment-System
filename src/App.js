@@ -9,16 +9,24 @@ import Admin from './screens/Admin/Admin';
 import StudentRegistration from './screens/Student/StudentRegistration';
 // import Student from './screens/Student/Student';
 import AppNavigation from './Navigation/Navigation';
+import AsyncStorage from '@react-native-community/async-storage';
+import {UpdateUser} from './store/actions/authActions';
 
 const App = () => {
+  const user = store.getState().auth.user;
+  console.log(user);
   useEffect(() => {
-    
-  }, [])
-  console.log(store.getState());
+    if (!user) {
+      AsyncStorage.getItem('user').then((response) => {
+        store.dispatch(UpdateUser(response));
+      });
+    }
+  }, [user]);
+  console.log('store', store);
   return (
     <Provider store={store}>
       <AppNavigation />
-     </Provider>
+    </Provider>
   );
 };
 
