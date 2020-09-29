@@ -59,7 +59,7 @@ const AppNavigation = (props) => {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer ref={navigationRef}>
-      {props.user ? (props.user.type && props.user.type === 'company' ? <Stack.Screen name="Home Screen" component={CompanyDrawer} /> : (props.user.type === 'student' ? )) : <AuthStackScreen />}
+      {/* {props.user ? (props.user.type && props.user.type === 'company' ? <Stack.Screen name="Home Screen" component={CompanyDrawer} /> : (props.user.type === 'student' ? )) : <AuthStackScreen />} */}
     </NavigationContainer>
   );
 };
