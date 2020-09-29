@@ -12,8 +12,9 @@ import {
 import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import * as RootNavigation from '../../RootNavigation';
 
-export const LOGIN = ({email, password}, navigate) => {
+export const LOGIN = ({email, password}) => {
   const obj = {
     email,
     password,
@@ -36,12 +37,12 @@ export const LOGIN = ({email, password}, navigate) => {
             const speedRef = database.child('user/' + userId);
             speedRef.on('value', (snapshot) => {
               typeCheck = snapshot.val().type;
-              // if (typeCheck === 'student') {
-              //   navigate('Company');
-              // }
-              // if (typeCheck === 'company') {
-              //   navigate('Student');
-              // }
+              if (typeCheck === 'student') {
+                RootNavigation.navigate('Company');
+              }
+              if (typeCheck === 'company') {
+                RootNavigation.navigate('Student');
+              }
             });
           }
           dispatch({type: LOGIN_SUCCESS, payload: obj});
@@ -74,12 +75,12 @@ export const SIGNUP = ({name, email, password, type}) => {
         });
         AsyncStorage.setItem('user', JSON.stringify(obj));
 
-        // if (type === 'student') {
-        //   // navigate('StudentRegistration');
-        // }
-        // if (type === 'company') {
-        //   // navigate('StudentRegistration');
-        // }
+        if (type === 'student') {
+          RootNavigation.navigate('Company');
+        }
+        if (type === 'company') {
+          RootNavigation.navigate('Student');
+        }
 
         name = '';
         email = '';
@@ -100,13 +101,10 @@ export const SIGNOUT = () => {
         .auth()
         .signOut()
         .then(() => {
-          AsyncStorage.removeItem('user')
-            .then((response) => console.log('success'))
-            .catch((err) => console.log(err));
-          // navigate('Sign In');
+          AsyncStorage.removeItem('user');
+          dispatch({type: LOGOUT_SUCCESS});
+          RootNavigation.navigate('SignIn');
         });
-
-      dispatch({type: LOGOUT_SUCCESS});
     } catch (error) {
       dispatch({type: LOGOUT_FAILED});
     }

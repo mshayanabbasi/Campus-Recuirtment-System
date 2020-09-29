@@ -63,7 +63,7 @@ const mapStateToProps = (state) => {
 
   return {
     allStudents: state.student.allStudents,
-    currentUser: state.auth.currentUser,
+    // currentUser: state.auth.currentUser,
     unBlockedStudents,
     user: state.auth.user,
   };

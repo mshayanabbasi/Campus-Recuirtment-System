@@ -14,8 +14,8 @@ const SignIn = (props) => {
       email,
       password,
     };
-    const navi = props.navigation.navigate;
-    props.signIn(obj,navi);
+    // const navi = props.navigation.navigate;
+    props.signIn(obj);
     // if (props.user.type === 'student') {
     //   props.navigation.navigate('Company');
     // } else if (props.user.type === 'company') {
@@ -54,7 +54,7 @@ const SignIn = (props) => {
           <Text>
             Do You Have an Account?
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Sign Up')}>
+              onPress={() => props.navigation.navigate('SignUp')}>
               <Text>Sign Up</Text>
             </TouchableOpacity>
           </Text>

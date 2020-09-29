@@ -96,7 +96,7 @@ const SignUp = (props) => {
             <Text style={{fontSize: 18}}>
               Already have an Account?
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('Sign In')}>
+                onPress={() => props.navigation.navigate('Sign  In')}>
                 <Text style={{fontSize: 18}}>Sign In</Text>
               </TouchableOpacity>
             </Text>
