@@ -10,30 +10,7 @@ const Companies = (props) => {
   // };
   return (
     <>
-      {props.user.type === 'admin' ? (
-        props.allCompanies.length > 0 ? (
-          <Card>
-            <Text>All Companies</Text>
-            <FlatList
-              data={props.allCompanies}
-              keyExtractor={(item) => item.companyID}
-              renderItem={({item}) => {
-                return (
-                  <ListItem>
-                    <ListItem.Content>
-                      <ListItem.Title>{item.cname}</ListItem.Title>
-                    </ListItem.Content>
-                  </ListItem>
-                );
-              }}
-            />
-          </Card>
-        ) : (
-          <View>
-            <Text>Sorry, No Company Available</Text>
-          </View>
-        )
-      ) : props.unBlockedCompanies.length > 0 ? (
+      {props.allCompanies.length > 0 ? (
         <Card>
           <Text>All Companies</Text>
           <FlatList

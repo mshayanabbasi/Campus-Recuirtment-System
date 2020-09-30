@@ -54,7 +54,7 @@ const SignIn = (props) => {
           <Text>
             Do You Have an Account?
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('SignUp')}>
+              onPress={() => props.navigation.navigate('Sign Up')}>
               <Text>Sign Up</Text>
             </TouchableOpacity>
           </Text>

@@ -38,7 +38,7 @@ export const LOGIN = ({email, password}) => {
             speedRef.on('value', (snapshot) => {
               typeCheck = snapshot.val().type;
               if (typeCheck === 'student') {
-                RootNavigation.navigate('Company');
+                RootNavigation.navigate('Student');
               }
               if (typeCheck === 'company') {
                 RootNavigation.navigate('Student');
@@ -73,18 +73,13 @@ export const SIGNUP = ({name, email, password, type}) => {
         ref.child('user' + '/' + firebase.auth().currentUser.uid).set({
           ...obj,
         });
-        AsyncStorage.setItem('user', JSON.stringify(obj));
-
         if (type === 'student') {
-          RootNavigation.navigate('Company');
+          RootNavigation.navigate('Root', {screen: 'Company'});
         }
         if (type === 'company') {
           RootNavigation.navigate('Student');
         }
-
-        name = '';
-        email = '';
-        password = '';
+        AsyncStorage.setItem('user', JSON.stringify(obj));
         dispatch({type: SIGNUP_SUCCESS, payload: obj});
       })
       .catch((error) => {
@@ -103,7 +98,7 @@ export const SIGNOUT = () => {
         .then(() => {
           AsyncStorage.removeItem('user');
           dispatch({type: LOGOUT_SUCCESS});
-          RootNavigation.navigate('SignIn');
+          RootNavigation.navigate('Sign In');
         });
     } catch (error) {
       dispatch({type: LOGOUT_FAILED});
