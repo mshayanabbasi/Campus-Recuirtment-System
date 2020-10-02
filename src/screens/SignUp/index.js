@@ -10,8 +10,9 @@ import {SIGNUP} from '../../store/actions/authActions';
 
 const SignUp = (props) => {
   console.log('SignUp', props);
-  signUp = (data) => {
+  let signUp = (data) => {
     const {name, email, password, selectedValue} = data;
+    const {navigation} = props;
     // console.log(data);
     const obj = {
       name,
@@ -20,9 +21,9 @@ const SignUp = (props) => {
       type: selectedValue,
     };
     // const navi = props.navigation;
-    props.signUp(obj);
+    props.signUp(obj, navigation);
   };
-  console.log(props.user);
+  console.log('user', props.user);
   return (
     <Formik
       initialValues={{
@@ -31,7 +32,16 @@ const SignUp = (props) => {
         password: '',
         selectedValue: '',
       }}
-      onSubmit={(values) => signUp(values)}>
+      onSubmit={(values) => {
+        signUp(values);
+        // if (props.user.type && props.user.type === 'student') {
+        //   console.log('student');
+        //   props.navigation.navigate('Root', {screen: 'Student Registration'});
+        // } else if (props.user.type && props.user.type === 'company') {
+        //   console.log('company');
+        //   props.navigation.navigate('Root', {screen: 'Company Registration'});
+        // }
+      }}>
       {({handleChange, handleSubmit, values, setFieldValue}) => (
         <Card>
           <Text style={{fontSize: 22, fontWeight: 'bold'}}>

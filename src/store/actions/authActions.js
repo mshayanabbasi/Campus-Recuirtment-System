@@ -12,9 +12,8 @@ import {
 import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as RootNavigation from '../../RootNavigation';
 
-export const LOGIN = ({email, password}) => {
+export const LOGIN = ({email, password}, navigation) => {
   const obj = {
     email,
     password,
@@ -38,10 +37,10 @@ export const LOGIN = ({email, password}) => {
             speedRef.on('value', (snapshot) => {
               typeCheck = snapshot.val().type;
               if (typeCheck === 'student') {
-                RootNavigation.navigate('Student');
+                navigation.push('Company');
               }
               if (typeCheck === 'company') {
-                RootNavigation.navigate('Student');
+                navigation.push('Student');
               }
             });
           }
@@ -53,7 +52,7 @@ export const LOGIN = ({email, password}) => {
   };
 };
 
-export const SIGNUP = ({name, email, password, type}) => {
+export const SIGNUP = ({name, email, password, type}, navigation) => {
   const obj = {
     name,
     email,
@@ -69,17 +68,24 @@ export const SIGNUP = ({name, email, password, type}) => {
         console.log('error', error);
       })
       .then((data) => {
+        var userID = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref();
         ref.child('user' + '/' + firebase.auth().currentUser.uid).set({
+          userID,
           ...obj,
         });
-        if (type === 'student') {
-          RootNavigation.navigate('Root', {screen: 'Company'});
-        }
-        if (type === 'company') {
-          RootNavigation.navigate('Student');
-        }
-        AsyncStorage.setItem('user', JSON.stringify(obj));
+        AsyncStorage.setItem('user', JSON.stringify(obj)).then(() => {
+          if (type === 'student') {
+            navigation.navigate('Root', {
+              screen: 'Student Registration',
+            });
+          } else if (type === 'company') {
+            navigation.navigate('Root', {
+              screen: 'Company Registration',
+            });
+          }
+        });
+
         dispatch({type: SIGNUP_SUCCESS, payload: obj});
       })
       .catch((error) => {
@@ -88,7 +94,7 @@ export const SIGNUP = ({name, email, password, type}) => {
   };
 };
 
-export const SIGNOUT = () => {
+export const SIGNOUT = (navigation) => {
   return (dispatch) => {
     dispatch({type: LOGOUT_LOADING});
     try {
@@ -96,9 +102,10 @@ export const SIGNOUT = () => {
         .auth()
         .signOut()
         .then(() => {
-          AsyncStorage.removeItem('user');
+          AsyncStorage.removeItem('user').then(() => {
+            navigation.navigate('Auth', {screen: 'Sign In'});
+          });
           dispatch({type: LOGOUT_SUCCESS});
-          RootNavigation.navigate('Sign In');
         });
     } catch (error) {
       dispatch({type: LOGOUT_FAILED});

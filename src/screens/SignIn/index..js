@@ -7,19 +7,20 @@ import {LOGIN} from '../../store/actions/authActions';
 
 const SignIn = (props) => {
   console.log('SignIn', props);
-  signIn = (data) => {
+  let signIn = (data) => {
     const {email, password} = data;
-    console.log(data);
+    // console.log(data);
+    const {navigation} = props;
     const obj = {
       email,
       password,
     };
     // const navi = props.navigation.navigate;
-    props.signIn(obj);
+    props.signIn(obj, navigation);
     // if (props.user.type === 'student') {
-    //   props.navigation.navigate('Company');
+    //   props.navigation.navigate('Root', {screen: 'Company'});
     // } else if (props.user.type === 'company') {
-    //   props.navigation.navigate('Student');
+    //   props.navigation.navigate('Root', {screen: 'Student'});
     // }
   };
   return (

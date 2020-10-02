@@ -7,7 +7,7 @@ import SignUp from '../screens/SignUp';
 import {connect} from 'react-redux';
 import StudentRegistration from '../screens/Student/StudentRegistration';
 import Companies from '../screens/Company/Companies';
-import {SIGNOUT} from '../store/actions/authActions';
+import {SIGNOUT, UpdateUser} from '../store/actions/authActions';
 import Students from '../screens/Student/Students';
 import {Button} from 'react-native-elements';
 import {navigationRef} from '../RootNavigation';
@@ -15,16 +15,27 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CompanyDrawerContent from './CompanyDrawerContent';
 import PostVacancy from '../screens/Company/PostVacancy';
 import StudentProfile from '../screens/Student/StudentProfile';
+import CompanyRegistration from '../screens/Company/Info';
 
 const AppNavigation = (props) => {
-  const [value, setValue] = React.useState('');
+  const user = props.user;
+  console.log('use Effect sy phele', user);
+  const [value, setValue] = React.useState(null);
+  const [count, setCount] = React.useState(0);
+  React.useEffect(() => {
+    if (!user) {
+      AsyncStorage.getItem('user').then((response) => {
+        props.updateUser(response);
+      });
+    }
+  }, [user]);
 
-  AsyncStorage.getItem('user').then((response) => {
-    setValue(JSON.parse(response));
-    console.log('response', value);
-  });
-  console.log('value', value);
-  console.log('navigation', props);
+  // const _getDataAsync = async () => {
+  //   const data = await AsyncStorage.getItem('user');
+  //   setValue(JSON.parse(data));
+  // };
+  console.log('useEffect k baad user', user);
+  console.log('navigation navig', props);
   // const AuthStack = createStackNavigator();
   // const AuthStackScreen = () => {
   //   return (
@@ -55,57 +66,71 @@ const AppNavigation = (props) => {
   //     </Drawer.Navigator>
   //   )
   // }
+  // const handleSignOut = () => {
+  //   const {navigation} = props;
+  //   props.signOut(navigation);
+  // };
 
   const Stack = createStackNavigator();
+  function Auth() {
+    return (
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Sign In">
+          {(props) => <SignIn {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Sign Up">
+          {(props) => <SignUp {...props} />}
+        </Stack.Screen>
+      </Stack.Navigator>
+    );
+  }
+
   function Root() {
     return (
-      <Stack.Navigator>
-        {value.type && value.type === 'company' ? (
-          <Stack.Screen
-            name="Student"
-            component={Students}
-            options={{
-              headerRight: () => {
-                return (
-                  <Button title="Sign Out" onPress={() => props.signOut()} />
-                );
-              },
-            }}
-          />
-        ) : (
-          <Stack.Screen
-            name="Company"
-            component={Companies}
-            options={{
-              headerRight: () => {
-                return (
-                  <Button title="Sign out" onPress={() => props.signOut()} />
-                );
-              },
-            }}
-          />
-        )}
-      </Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: true}}></Stack.Navigator>
     );
   }
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator>
-        {value ? (
+      <Stack.Navigator initialRouteName="Sign In">
+        {props.user ? (
+          <>
+            <Stack.Screen
+              name="Student"
+              component={Students}
+              options={({navigation}) => ({
+                animationTypeForReplace: 'pop',
+                headerRight: () => {
+                  return (
+                    <Button
+                      title="Sign Out"
+                      onPress={() => props.signOut(navigation)}
+                    />
+                  );
+                },
+              })}
+            />
+            <Stack.Screen
+              name="Company"
+              component={Companies}
+              options={({navigation}) => ({
+                headerRight: () => {
+                  return (
+                    <Button
+                      title="Sign Out"
+                      onPress={() => props.signOut(navigation)}
+                    />
+                  );
+                },
+              })}
+            />
+          </>
+        ) : (
           <Stack.Screen
-            name="Root"
-            component={Root}
+            name="Auth"
+            component={Auth}
             options={{headerShown: false}}
           />
-        ) : (
-          <>
-            <Stack.Screen name="Sign In">
-              {(props) => <SignIn {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="Sign Up">
-              {(props) => <SignUp {...props} />}
-            </Stack.Screen>
-          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
@@ -120,8 +145,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // CurrentUser: () => dispatch(CURRENTUSER()),
-    signOut: () => dispatch(SIGNOUT()),
+    updateUser: (d) => dispatch(UpdateUser(d)),
+    signOut: (a) => dispatch(SIGNOUT(a)),
   };
 };
 
