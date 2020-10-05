@@ -8,17 +8,31 @@ const CompanyProfile = (props) => {
   //   return stu.userId === props.currentUser.uid;
   // });
   return (
-    
-        <Card>
-          <Card.Title>Company's profile</Card.Title>
-          <Card.Divider />
-          <Text>Company Name In App</Text>
-          <Text>Established 2015</Text>
-          <Text>HR Name Hammad</Text>
-          <Text>Email company@gmail.com</Text>
-          <Text>Contact Number 03331022234</Text>
-          <Button title="Edit" />
-        </Card>
+    <Card>
+      <Card.Title style={{fontSize: 20}}>Company's profile</Card.Title>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Company Name In App
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Established 2015
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        HR Name Hammad
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Email company@gmail.com
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Contact Number 03331022234
+      </Text>
+      <Card.Divider />
+      <Button title="Edit" />
+    </Card>
   );
 };
 

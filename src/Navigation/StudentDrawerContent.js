@@ -6,6 +6,10 @@ import {SIGNOUT} from '../store/actions/authActions';
 import {Drawer, Title} from 'react-native-paper';
 
 function StudentDrawerContent(props) {
+  const handleSignout = () => {
+    const {navigation} = props;
+    props.signOut(navigation);
+  };
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -24,7 +28,7 @@ function StudentDrawerContent(props) {
                 props.navigation.navigate('Company');
               }}
             />
-            
+
             <DrawerItem
               label="Posted Vacancies"
               onPress={() => {
@@ -41,12 +45,7 @@ function StudentDrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          label="Sign Out"
-          onPress={() => {
-            props.signOut();
-          }}
-        />
+        <DrawerItem label="Sign Out" onPress={handleSignout} />
       </Drawer.Section>
     </View>
   );
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signOut: () => dispatch(SIGNOUT()),
+    signOut: (a) => dispatch(SIGNOUT(a)),
   };
 };
 

@@ -82,14 +82,7 @@ const AppNavigation = (props) => {
                 />
               );
             },
-            headerRight: () => {
-              return (
-                <Button
-                  title="Sign Out"
-                  onPress={() => props.signOut(navigation)}
-                />
-              );
-            },
+            headerTitleAlign: 'center',
           })}
         />
         <Stack.Screen
@@ -97,14 +90,6 @@ const AppNavigation = (props) => {
           component={CompanyRegistration}
           options={({navigation}) => ({
             headerLeft: null,
-            headerRight: () => {
-              return (
-                <Button
-                  title="Sign Out"
-                  onPress={() => props.signOut(navigation)}
-                />
-              );
-            },
           })}
         />
       </Stack.Navigator>
@@ -130,14 +115,7 @@ const AppNavigation = (props) => {
                 />
               );
             },
-            headerRight: () => {
-              return (
-                <Button
-                  title="Sign Out"
-                  onPress={() => props.signOut(navigation)}
-                />
-              );
-            },
+            headerTitleAlign: 'center',
           })}
         />
         <Stack.Screen
@@ -145,14 +123,6 @@ const AppNavigation = (props) => {
           component={StudentRegistration}
           options={({navigation}) => ({
             headerLeft: null,
-            headerRight: () => {
-              return (
-                <Button
-                  title="Sign Out"
-                  onPress={() => props.signOut(navigation)}
-                />
-              );
-            },
           })}
         />
       </Stack.Navigator>

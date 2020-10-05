@@ -11,23 +11,29 @@ const PostedVacancy = (props) => {
   return (
     <>
       <Card>
-        <Card.Title>POSTED VACANCIES</Card.Title>
-        {currentCompanyVacancies.length > 0 ? (
+        <View>
+        {/* {v.jobname} */}
+              <Text>Job Name</Text>
+              {/* {v.description} */}
+              <Text>Description</Text>
+              {/* {v.salary} */}
+              <Text>Salary</Text>
+              {/* {v.ec} */}
+              <Text style={{paddingBottom: 20}}>EC</Text>
+              <Button title="Apply Now" />
+            </View>
+        {/* {currentCompanyVacancies.length > 0 ? (
           currentCompanyVacancies.map((v, i) => {
             return (
-              <View key={i}>
-                <Text>{v.jobname}</Text>
-                <Text>{v.description}</Text>
-                <Text>{v.salary}</Text>
-                <Text>{v.ec}</Text>
-              </View>
+              
             );
+            
           })
         ) : (
           <View>
             <Text>You didn't post any vacancy yet!</Text>
           </View>
-        )}
+        )} */}
       </Card>
     </>
   );

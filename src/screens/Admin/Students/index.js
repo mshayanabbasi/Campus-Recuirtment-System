@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {Card, ListItem, Text} from 'react-native-elements';
 import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 const AllStudents = (props) => {
   console.log(props);
-  
+
   return (
     <>
-      {props.allStudents.length > 0 ? (
+      {/* {props.allStudents.length > 0 ? ( */}
         <Card>
           <Text>All Students</Text>
           <FlatList
@@ -26,20 +26,18 @@ const AllStudents = (props) => {
             }}
           />
         </Card>
-      ) : (
-        <View>
+      {/* ) : ( */}
+        {/* <View>
           <Text>Sorry, No Student Available</Text>
-        </View>
-      )}
+        </View> */}
+      {/* )} */}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-
   return {
     allStudents: state.student.allStudents,
-    // currentUser: state.auth.currentUser,
     user: state.auth.user,
   };
 };
