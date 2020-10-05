@@ -4,17 +4,28 @@ import store from './store';
 import AppNavigation from './Navigation/Navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import {UpdateUser} from './store/actions/authActions';
+import {Alert, BackHandler} from 'react-native';
 
 const App = () => {
-  const user = store.getState().auth.user;
-  console.log(user);
+  const backAction = () => {
+    BackHandler.exitApp();
+    // Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+    //   {
+    //     text: 'Cancel',
+    //     onPress: () => null,
+    //     style: 'cancel',
+    //   },
+    //   {text: 'YES', onPress: () => BackHandler.exitApp()},
+    // ]);
+    return true;
+  };
+
   useEffect(() => {
-    if (!user) {
-      AsyncStorage.getItem('user').then((response) => {
-        store.dispatch(UpdateUser(response));
-      });
-    }
-  }, [user]);
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, []);
   console.log('store', store);
   return (
     <Provider store={store}>

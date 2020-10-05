@@ -1,5 +1,9 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DrawerActions,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import SignIn from '../screens/SignIn/index.';
@@ -17,22 +21,12 @@ import PostVacancy from '../screens/Company/PostVacancy';
 import StudentProfile from '../screens/Student/StudentProfile';
 import CompanyRegistration from '../screens/Company/Info';
 import Loading from '../screens/Loading';
+import CompanyProfile from '../screens/Company/CompanyProfile';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import StudentDrawerContent from './StudentDrawerContent';
+import PostedVacancy from '../screens/Company/PostedVacancy';
+
 const AppNavigation = (props) => {
-  // const _getDataAsync = async () => {
-  //   const data = await AsyncStorage.getItem('user');
-  //   setValue(JSON.parse(data));
-  // };
-
-  // const AuthStack = createStackNavigator();
-  // const AuthStackScreen = () => {
-  //   return (
-  //     <AuthStack.Navigator initialRouteName="SignIn">
-  //       <AuthStack.Screen name="SignIn" component={SignIn} />
-  //       <AuthStack.Screen name="SignUp" component={SignUp} />
-  //     </AuthStack.Navigator>
-  //   );
-  // };
-
   const Drawer = createDrawerNavigator();
   const CompanyDrawer = () => {
     return (
@@ -40,23 +34,20 @@ const AppNavigation = (props) => {
         drawerContent={(props) => <CompanyDrawerContent {...props} />}>
         <Drawer.Screen name="Student" component={Students} />
         <Drawer.Screen name="PostVacancy" component={PostVacancy} />
+        <Drawer.Screen name="Company Profile" component={CompanyProfile} />
+      </Drawer.Navigator>
+    );
+  };
+  const StudentDrawer = () => {
+    return (
+      <Drawer.Navigator
+        drawerContent={(props) => <StudentDrawerContent {...props} />}>
+        <Drawer.Screen name="Company" component={Companies} />
+        <Drawer.Screen name="Posted Vacancies" component={PostedVacancy} />
         <Drawer.Screen name="Student Profile" component={StudentProfile} />
       </Drawer.Navigator>
     );
   };
-  // const StudentDrawer = () => {
-  //   return (
-  //     <Drawer.Navigator>
-  //       <Drawer.Screen />
-  //       <Drawer.Screen />
-  //       <Drawer.Screen />
-  //     </Drawer.Navigator>
-  //   )
-  // }
-  // const handleSignOut = () => {
-  //   const {navigation} = props;
-  //   props.signOut(navigation);
-  // };
 
   const Stack = createStackNavigator();
   function Auth() {
@@ -75,10 +66,22 @@ const AppNavigation = (props) => {
     return (
       <Stack.Navigator screenOptions={{headerShown: true}}>
         <Stack.Screen
-          name="Company Registration"
-          component={CompanyRegistration}
-          options={({navigation}) => ({
-            headerLeft: null,
+          name="Company"
+          component={StudentDrawer}
+          options={({route, navigation}) => ({
+            headerTitle: getFocusedRouteNameFromRoute(route),
+            headerLeft: () => {
+              return (
+                <Ionicons
+                  name="menu"
+                  size={30}
+                  style={{padding: 5}}
+                  onPress={() =>
+                    navigation.dispatch(DrawerActions.toggleDrawer())
+                  }
+                />
+              );
+            },
             headerRight: () => {
               return (
                 <Button
@@ -90,8 +93,8 @@ const AppNavigation = (props) => {
           })}
         />
         <Stack.Screen
-          name="Company"
-          component={Companies}
+          name="Company Registration"
+          component={CompanyRegistration}
           options={({navigation}) => ({
             headerLeft: null,
             headerRight: () => {
@@ -111,10 +114,22 @@ const AppNavigation = (props) => {
     return (
       <Stack.Navigator screenOptions={{headerShown: true}}>
         <Stack.Screen
-          name="Student Registration"
-          component={StudentRegistration}
-          options={({navigation}) => ({
-            headerLeft: null,
+          name="Student"
+          component={CompanyDrawer}
+          options={({navigation, route}) => ({
+            headerTitle: getFocusedRouteNameFromRoute(route),
+            headerLeft: () => {
+              return (
+                <Ionicons
+                  name="menu"
+                  size={30}
+                  style={{padding: 5}}
+                  onPress={() =>
+                    navigation.dispatch(DrawerActions.toggleDrawer())
+                  }
+                />
+              );
+            },
             headerRight: () => {
               return (
                 <Button
@@ -126,10 +141,10 @@ const AppNavigation = (props) => {
           })}
         />
         <Stack.Screen
-          name="Student"
-          component={Students}
+          name="Student Registration"
+          component={StudentRegistration}
           options={({navigation}) => ({
-            animationTypeForReplace: 'pop',
+            headerLeft: null,
             headerRight: () => {
               return (
                 <Button
@@ -197,90 +212,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppNavigation);
-
-// const Tab = createBottomTabNavigator();
-
-// const HomeTabs = () => {
-//   return (
-//     <Tab.Navigator>
-//       <Tab.Screen name="Home" component={HomeScreen} />
-//       <Tab.Screen name="Profile" component={ProfileScreen} />
-//     </Tab.Navigator>
-//   );
-// };
-
-// const Drawer = createDrawerNavigator();
-
-// const HomeDrawer = () => {
-//   return (
-//     <Drawer.Navigator>
-//       <Drawer.Screen name="Home" component={HomeTabs} />
-//       <Drawer.Screen name="Account" component={AccountScreen} />
-//       <Drawer.Screen name="Password Forget" component={PasswordForgetScreen} />
-//       <Drawer.Screen name="Password Change" component={PasswordChangeScreen} />
-//       <Drawer.Screen name="Admin" component={AdminScreen} />
-//     </Drawer.Navigator>
-//   );
-// };
-
-// const RootStack = createStackNavigator();
-
-// const App = () => {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-//   const handleSignIn = () => {
-//     setIsAuthenticated(true);
-//   };
-//   const handleSignOut = () => {
-//     setIsAuthenticated(false);
-//   };
-//   const handleSignUp = () => {
-//     setIsAuthenticated(true);
-//   };
-//   return (
-//     <NavigationContainer>
-//       <RootStack.Navigator>
-//         {isAuthenticated ? (
-//           <RootStack.Screen
-//             name="Home"
-//             component={HomeDrawer}
-//             options={({route, navigation}) => ({
-//               headerTitle: getFocusedRouteNameFromRoute(route),
-//               headerLeft: () => (
-//                 <Button
-//                   onPress={() =>
-//                     navigation.dispatch(DrawerActions.toggleDrawer())
-//                   }
-//                   title="Menu"
-//                 />
-//               ),
-//               headerRight: () => {
-//                 return <Button title="Sign Out" onPress={handleSignOut} />;
-//               },
-//             })}
-//           />
-//         ) : (
-//           <>
-//             <RootStack.Screen
-//               name="Landing"
-//               component={LandingScreen}
-//               options={{
-//                 animationTypeForReplace: 'pop',
-//               }}
-//             />
-
-//             <RootStack.Screen name="Sign In">
-//               {(props) => <SignInScreen {...props} onSignIn={handleSignIn} />}
-//             </RootStack.Screen>
-//             <RootStack.Screen name="Sign Up">
-//               {(props) => <SignUpScreen {...props} onSignUp={handleSignUp} />}
-//             </RootStack.Screen>
-//             <RootStack.Screen
-//               name="Password Forget"
-//               component={PasswordForgetScreen}
-//             />
-//           </>
-//         )}
-//       </RootStack.Navigator>
-//     </NavigationContainer>
-//   );
-// };

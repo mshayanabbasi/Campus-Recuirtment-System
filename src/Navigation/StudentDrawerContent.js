@@ -19,7 +19,7 @@ function StudentDrawerContent(props) {
           </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              label="Home"
+              label="Company"
               onPress={() => {
                 props.navigation.navigate('Company');
               }}
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CompanyDrawerContent);
+export default connect(null, mapDispatchToProps)(StudentDrawerContent);

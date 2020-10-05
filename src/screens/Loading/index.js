@@ -12,7 +12,7 @@ const Loading = (props) => {
         if (response) {
           response = JSON.parse(response);
           if (response.type === 'student') {
-            props.navigation.navigate('Companies', {screen: 'Company'});
+            props.navigation.navigate('Companies', {screen: 'Company Drawer'});
           }
           if (response.type === 'company') {
             props.navigation.navigate('Students', {screen: 'Student'});
@@ -22,6 +22,7 @@ const Loading = (props) => {
         }
       });
     }
+    console.log('user', props.user);
   }, [props.user]);
 
   return (

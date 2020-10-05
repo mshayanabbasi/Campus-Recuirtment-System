@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Card, ListItem, Text} from 'react-native-elements';
 import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 const Student = (props) => {
   console.log(props);
+  
   return (
     <>
       {props.allStudents.length > 0 ? (

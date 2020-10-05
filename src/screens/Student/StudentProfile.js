@@ -4,27 +4,22 @@ import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 
 const StudentProfile = (props) => {
-  const currentStudent = props.allStudents.forEach((stu) => {
-    return stu.userId === props.currentUser.uid;
-  });
   return (
     <>
-      {props.currentUser ? (
-        <Card>
-          <Card.Title>Student's profile</Card.Title>
-          <Card.Divider />
-          <Text>First Name {currentStudent.firstName}</Text>
-          <Text>Last Name {currentStudent.lastName}</Text>
-          <Text>Age {currentStudent.age}</Text>
-          <Text>Gender {currentStudent.gender}</Text>
-          <Text>Qualification {currentStudent.qualification}</Text>
-          <Text>Skills {currentStudent.skills}</Text>
-          <Text>Department {currentStudent.department}</Text>
-          <Text>Email {currentStudent.email}</Text>
-          <Text>Contact Number {currentStudent.phoneNumber}</Text>
-          <Button title="Edit" />
-        </Card>
-      ) : null}
+      <Card>
+        <Card.Title>Student's profile</Card.Title>
+        <Card.Divider />
+        <Text>First Name Muhammad</Text>
+        <Text>Last Name Shayan</Text>
+        <Text>Age 28</Text>
+        <Text>Gender Male</Text>
+        <Text>Qualification Bachelor's</Text>
+        <Text>Skills Mobile Application Developer</Text>
+        <Text>Department BS</Text>
+        <Text>Email mshayanabbai@gmail.com</Text>
+        <Text>Contact Number 03331022234</Text>
+        <Button title="Edit" />
+      </Card>
     </>
   );
 };
