@@ -30,17 +30,22 @@ export const LOGIN = ({email, password}, navigation) => {
           if (email === 'admin@gmail.com' && password === 'admin12345') {
             console.log('Successfully Sign In admin');
           } else {
-            var typeCheck;
             const userId = firebase.auth().currentUser.uid;
             const database = firebase.database().ref();
             const speedRef = database.child('user/' + userId);
             speedRef.on('value', (snapshot) => {
-              typeCheck = snapshot.val().type;
-              if (typeCheck === 'student') {
-                navigation.push('Company');
+              const {email, name, type} = snapshot.val();
+              const object = {
+                name,
+                email,
+                type,
+              };
+              AsyncStorage.setItem('user', JSON.stringify(object));
+              if (type === 'student') {
+                navigation.navigate('Companies', {screen: 'Company'});
               }
-              if (typeCheck === 'company') {
-                navigation.push('Student');
+              if (type === 'company') {
+                navigation.navigate('Students', {screen: 'Student'});
               }
             });
           }
@@ -56,7 +61,6 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
   const obj = {
     name,
     email,
-    password,
     type,
   };
   return (dispatch) => {
@@ -74,17 +78,16 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
           userID,
           ...obj,
         });
-        AsyncStorage.setItem('user', JSON.stringify(obj)).then(() => {
-          if (type === 'student') {
-            navigation.navigate('Root', {
-              screen: 'Student Registration',
-            });
-          } else if (type === 'company') {
-            navigation.navigate('Root', {
-              screen: 'Company Registration',
-            });
-          }
-        });
+        AsyncStorage.setItem('user', JSON.stringify(obj));
+        if (type === 'student') {
+          navigation.navigate('Students', {
+            screen: 'Student Registration',
+          });
+        } else if (type === 'company') {
+          navigation.navigate('Companies', {
+            screen: 'Company Registration',
+          });
+        }
 
         dispatch({type: SIGNUP_SUCCESS, payload: obj});
       })

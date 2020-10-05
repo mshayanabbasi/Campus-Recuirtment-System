@@ -16,26 +16,13 @@ import CompanyDrawerContent from './CompanyDrawerContent';
 import PostVacancy from '../screens/Company/PostVacancy';
 import StudentProfile from '../screens/Student/StudentProfile';
 import CompanyRegistration from '../screens/Company/Info';
-
+import Loading from '../screens/Loading';
 const AppNavigation = (props) => {
-  const user = props.user;
-  console.log('use Effect sy phele', user);
-  const [value, setValue] = React.useState(null);
-  const [count, setCount] = React.useState(0);
-  React.useEffect(() => {
-    if (!user) {
-      AsyncStorage.getItem('user').then((response) => {
-        props.updateUser(response);
-      });
-    }
-  }, [user]);
-
   // const _getDataAsync = async () => {
   //   const data = await AsyncStorage.getItem('user');
   //   setValue(JSON.parse(data));
   // };
-  console.log('useEffect k baad user', user);
-  console.log('navigation navig', props);
+
   // const AuthStack = createStackNavigator();
   // const AuthStackScreen = () => {
   //   return (
@@ -84,54 +71,113 @@ const AppNavigation = (props) => {
       </Stack.Navigator>
     );
   }
-
-  function Root() {
+  function Company() {
     return (
-      <Stack.Navigator screenOptions={{headerShown: true}}></Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: true}}>
+        <Stack.Screen
+          name="Company Registration"
+          component={CompanyRegistration}
+          options={({navigation}) => ({
+            headerLeft: null,
+            headerRight: () => {
+              return (
+                <Button
+                  title="Sign Out"
+                  onPress={() => props.signOut(navigation)}
+                />
+              );
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Company"
+          component={Companies}
+          options={({navigation}) => ({
+            headerLeft: null,
+            headerRight: () => {
+              return (
+                <Button
+                  title="Sign Out"
+                  onPress={() => props.signOut(navigation)}
+                />
+              );
+            },
+          })}
+        />
+      </Stack.Navigator>
     );
   }
+  function Student() {
+    return (
+      <Stack.Navigator screenOptions={{headerShown: true}}>
+        <Stack.Screen
+          name="Student Registration"
+          component={StudentRegistration}
+          options={({navigation}) => ({
+            headerLeft: null,
+            headerRight: () => {
+              return (
+                <Button
+                  title="Sign Out"
+                  onPress={() => props.signOut(navigation)}
+                />
+              );
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Student"
+          component={Students}
+          options={({navigation}) => ({
+            animationTypeForReplace: 'pop',
+            headerRight: () => {
+              return (
+                <Button
+                  title="Sign Out"
+                  onPress={() => props.signOut(navigation)}
+                />
+              );
+            },
+          })}
+        />
+      </Stack.Navigator>
+    );
+  }
+  function Root() {
+    return (
+      <Stack.Navigator screenOptions={{headerShown: true}}>
+        <Stack.Screen
+          name="Loading"
+          component={Loading}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Companies"
+          component={Company}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Students"
+          component={Student}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  }
+
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Sign In">
-        {props.user ? (
-          <>
-            <Stack.Screen
-              name="Student"
-              component={Students}
-              options={({navigation}) => ({
-                animationTypeForReplace: 'pop',
-                headerRight: () => {
-                  return (
-                    <Button
-                      title="Sign Out"
-                      onPress={() => props.signOut(navigation)}
-                    />
-                  );
-                },
-              })}
-            />
-            <Stack.Screen
-              name="Company"
-              component={Companies}
-              options={({navigation}) => ({
-                headerRight: () => {
-                  return (
-                    <Button
-                      title="Sign Out"
-                      onPress={() => props.signOut(navigation)}
-                    />
-                  );
-                },
-              })}
-            />
-          </>
-        ) : (
-          <Stack.Screen
-            name="Auth"
-            component={Auth}
-            options={{headerShown: false}}
-          />
-        )}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Root"
+          component={Root}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

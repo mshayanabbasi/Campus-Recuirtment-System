@@ -1,27 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, ActivityIndicator} from 'react-native';
 import {Text, Input, Button, Card} from 'react-native-elements';
 import {Formik} from 'formik';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {Picker} from '@react-native-community/picker';
 import {connect} from 'react-redux';
 import '../../config/firebaseConfig';
 import {SIGNUP} from '../../store/actions/authActions';
 
 const SignUp = (props) => {
   console.log('SignUp', props);
+  const [loading, setLoading] = useState(false);
   let signUp = (data) => {
     const {name, email, password, selectedValue} = data;
     const {navigation} = props;
-    // console.log(data);
     const obj = {
       name,
       email,
       password,
       type: selectedValue,
     };
-    // const navi = props.navigation;
     props.signUp(obj, navigation);
+    setLoading(true);
   };
   console.log('user', props.user);
   return (
@@ -34,13 +33,6 @@ const SignUp = (props) => {
       }}
       onSubmit={(values) => {
         signUp(values);
-        // if (props.user.type && props.user.type === 'student') {
-        //   console.log('student');
-        //   props.navigation.navigate('Root', {screen: 'Student Registration'});
-        // } else if (props.user.type && props.user.type === 'company') {
-        //   console.log('company');
-        //   props.navigation.navigate('Root', {screen: 'Company Registration'});
-        // }
       }}>
       {({handleChange, handleSubmit, values, setFieldValue}) => (
         <Card>
@@ -88,20 +80,15 @@ const SignUp = (props) => {
               handleChange('selectedValue');
             }}
           />
-          {/* <Picker
-            mode="dialog"
-            enabled
-            selectedValue={values.selectedValue}
-            style={{height: 50, width: 200}}
-            onValueChange={(itemValue, itemIndex) => {
-              setFieldValue('selectedValue', itemValue);
-              handleChange('selectedValue');
-            }}>
-            <Picker.Item label="Student" value="student" />
-            <Picker.Item label="Company" value="company" />
-            <Picker.Item label="Admin" value="admin" />
-          </Picker> */}
-          <Button onPress={handleSubmit} title="Sign Up" />
+          {loading ? (
+            <ActivityIndicator
+              animating={loading}
+              size="large"
+              color="0000ff"
+            />
+          ) : (
+            <Button onPress={handleSubmit} title="Sign Up" />
+          )}
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <Text style={{fontSize: 18}}>
               Already have an Account?
