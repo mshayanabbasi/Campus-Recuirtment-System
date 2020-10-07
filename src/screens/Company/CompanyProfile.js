@@ -1,34 +1,40 @@
-import React from 'react';
-import {Button, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Button, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {PrevDataOfCompanies} from '../../store/actions/companyActions';
 
 const CompanyProfile = (props) => {
-  // const currentCompany = props.allCompanies.forEach((stu) => {
-  //   return stu.userId === props.currentUser.uid;
-  // });
+  console.log('Company Profile', props);
+  useEffect(() => {
+    props.allCompanyData();
+  }, []);
+  const currentCompany = props.allCompanies.find((v) => {
+    return v.userId === props.user.userID;
+  });
+  console.log(currentCompany);
   return (
     <Card>
       <Card.Title style={{fontSize: 20}}>Company's profile</Card.Title>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Company Name In App
+        Company Name {currentCompany.cname}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Established 2015
+        Established {currentCompany.es}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        HR Name Hammad
+        HR Name {currentCompany.hrname}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Email company@gmail.com
+        Email {currentCompany.email}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Contact Number 03331022234
+        Contact Number {currentCompany.cnum}
       </Text>
       <Card.Divider />
       <Button title="Edit" />
@@ -39,10 +45,16 @@ const CompanyProfile = (props) => {
 const mapStateToProps = (state) => {
   // const userId = state.auth.currentUser ? state.auth.currentUser.uid : null;
   return {
-    currentUser: state.auth.currentUser,
-    allCompanies: state.student.allCompanies,
+    user: state.auth.user,
+    allCompanies: state.company.allCompanies,
     // isDisabled: checkC,
   };
 };
 
-export default connect(mapStateToProps)(CompanyProfile);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    allCompanyData: () => dispatch(PrevDataOfCompanies()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyProfile);

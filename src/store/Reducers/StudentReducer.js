@@ -1,7 +1,7 @@
 import {NEW_STUDENT, PERVIOUS_DATA_OF_STUDENTS} from '../Types';
 const initState = {
   allStudents: [],
-  prevDataOfStudents: false,
+  student: null,
 };
 
 const StudentReducer = (state = initState, action) => {
@@ -9,11 +9,12 @@ const StudentReducer = (state = initState, action) => {
     case PERVIOUS_DATA_OF_STUDENTS:
       return {
         ...state,
-        allStudents: action.data,
-        prevDataOfStudents: true,
+        allStudents: action.payload,
       };
     case NEW_STUDENT:
-      return state;
+      return {
+        student: action.payload,
+      };
 
     default:
       return state;

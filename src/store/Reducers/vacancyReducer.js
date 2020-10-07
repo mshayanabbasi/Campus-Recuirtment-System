@@ -8,9 +8,9 @@ import {
 
 const initialState = {
   allVacancies: [],
-  prevDataOfVacancies: false,
   errorFlag: false,
   errorMessage: '',
+  vacancy: null,
 };
 
 const VacanyReducer = (state = initialState, action) => {
@@ -18,11 +18,13 @@ const VacanyReducer = (state = initialState, action) => {
     case PERVIOUS_DATA_OF_VACANCIES:
       return {
         ...state,
-        allVacancies: action.dataP,
-        prevDataOfVacancies: true,
+        allVacancies: action.payload,
       };
     case NEW_VACANCIES:
-      return state;
+      return {
+        ...state,
+        vacancy: action.payload,
+      };
     case DELETE_VACANCY:
       return state;
     case REMOVE_ERROR_MESSAGES_POST_COMPANY:

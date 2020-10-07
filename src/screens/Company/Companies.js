@@ -1,32 +1,37 @@
-import React from 'react';
-import {View, FlatList} from 'react-native';
-import {Card, ListItem, Text} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {View, FlatList, Text} from 'react-native';
+import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {PrevDataOfCompanies} from '../../store/actions/companyActions';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Companies = (props) => {
-  console.log(props);
+  console.log('Companies', props);
   // const details = (id) => {
   //   // props.navigation.navigate();
   // };
+  useEffect(() => {
+    props.allCompaniesData();
+  }, []);
   return (
     <>
       {props.allCompanies.length > 0 ? (
-        <Card>
-          <Text>All Companies</Text>
-          <FlatList
-            data={props.allCompanies}
-            keyExtractor={(item) => item.companyID}
-            renderItem={({item}) => {
-              return (
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>{item.cname}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              );
-            }}
-          />
-        </Card>
+        <FlatList
+          data={props.allCompanies}
+          keyExtractor={(item) => item.companyID}
+          renderItem={({item}) => {
+            return (
+              <Card
+                wrapperStyle={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text>{item.cname}</Text>
+                <Ionicons name="information-circle-outline" size={30} />
+              </Card>
+            );
+          }}
+        />
       ) : (
         <View>
           <Text>Sorry, No Company Available</Text>
@@ -37,13 +42,16 @@ const Companies = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const unBlockedCompanies = state.company.allCompanies.filter((v) => !v.block);
   return {
     user: state.auth.user,
     allCompanies: state.company.allCompanies,
-    // currentUser: state.auth.currentUser,
-    unBlockedCompanies,
   };
 };
 
-export default connect(mapStateToProps)(Companies);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    allCompaniesData: () => dispatch(PrevDataOfCompanies()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Companies);

@@ -2,7 +2,7 @@ import {NEW_COMPANY, PERVIOUS_DATA_OF_COMPANIES} from '../Types';
 
 const initState = {
   allCompanies: [],
-  prevDataOfCompanies: false,
+  company: null,
 };
 
 const CompanyReducer = (state = initState, action) => {
@@ -10,15 +10,16 @@ const CompanyReducer = (state = initState, action) => {
     case PERVIOUS_DATA_OF_COMPANIES:
       return {
         ...state,
-        allCompanies: action.dataC,
-        prevDataOfCompanies: true,
+        allCompanies: action.payload,
       };
     case NEW_COMPANY:
-      return state;
+      return {
+        ...state,
+        company: action.payload,
+      };
     default:
       return state;
   }
 };
 
 export default CompanyReducer;
-    

@@ -9,16 +9,17 @@ import * as firebase from 'firebase';
 export const addNewCompany = (newCompany) => {
   return (dispatch) => {
     firebase.database().ref().child('companies').push(newCompany);
-    dispatch({type: NEW_COMPANY});
+    console.log(newCompany);
+    dispatch({type: NEW_COMPANY, payload: newCompany});
   };
 };
 
-export const UpdateCurrentCompany = (data, editID) => {
-  return (dispatch) => {
-    firebase.database().ref().child(`companies/${editID}`).update(data);
-    dispatch({type: UPDATE_COMPANY});
-  };
-};
+// export const UpdateCurrentCompany = (data, editID) => {
+//   return (dispatch) => {
+//     firebase.database().ref().child(`companies/${editID}`).update(data);
+//     dispatch({type: UPDATE_COMPANY});
+//   };
+// };
 
 export const PrevDataOfCompanies = () => {
   return (dispatch) => {
@@ -38,14 +39,9 @@ export const PrevDataOfCompanies = () => {
             hrname: data[key].hrname,
             email: data[key].email,
             cnum: data[key].cnum,
-            block: data[key].block,
           });
         }
-        dispatch({type: PERVIOUS_DATA_OF_COMPANIES, dataC: TemArr});
+        dispatch({type: PERVIOUS_DATA_OF_COMPANIES, payload: TemArr});
       });
   };
 };
-
-
-
-ex;

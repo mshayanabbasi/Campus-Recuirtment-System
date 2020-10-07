@@ -8,6 +8,9 @@ import {
   LOGOUT_FAILED,
   SIGNUP_LOADING,
   SIGNUP_FAILED,
+  USER_IS_BLOCKED,
+  CURRENT_USER_SUCCESS,
+  CURRENT_USER_FAILED,
 } from '../Types';
 import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
@@ -19,41 +22,39 @@ export const LOGIN = ({email, password}, navigation) => {
     password,
   };
   return (dispatch) => {
-    // console.log(obj);
     dispatch({type: LOGIN_LOADING});
-    try {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((data) => {
-          console.log('data', data);
-          if (email === 'admin@gmail.com' && password === 'admin12345') {
-            console.log('Successfully Sign In admin');
-          } else {
-            const userId = firebase.auth().currentUser.uid;
-            const database = firebase.database().ref();
-            const speedRef = database.child('user/' + userId);
-            speedRef.on('value', (snapshot) => {
-              const {email, name, type} = snapshot.val();
-              const object = {
-                name,
-                email,
-                type,
-              };
-              AsyncStorage.setItem('user', JSON.stringify(object));
-              if (type === 'student') {
-                navigation.navigate('Companies', {screen: 'Company'});
-              }
-              if (type === 'company') {
-                navigation.navigate('Students', {screen: 'Student'});
-              }
-            });
-          }
-          dispatch({type: LOGIN_SUCCESS, payload: obj});
-        });
-    } catch (error) {
-      dispatch({type: LOGIN_FAILED, payload: error});
-    }
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((data) => {
+        console.log('data', data);
+        if (email === 'admin@gmail.com' && password === 'admin12345') {
+          console.log('Successfully Sign In admin');
+        } else {
+          const userId = firebase.auth().currentUser.uid;
+          const database = firebase.database().ref();
+          const speedRef = database.child('user/' + userId);
+          speedRef.on('value', (snapshot) => {
+            const {email, name, type} = snapshot.val();
+            const object = {
+              name,
+              email,
+              type,
+            };
+            AsyncStorage.setItem('user', JSON.stringify(object));
+            if (type === 'student') {
+              navigation.navigate('Companies', {screen: 'Company'});
+            }
+            if (type === 'company') {
+              navigation.navigate('Students', {screen: 'Student'});
+            }
+          });
+        }
+        dispatch({type: LOGIN_SUCCESS, payload: obj});
+      })
+      .catch((error) => {
+        dispatch({type: LOGIN_FAILED, payload: error, logInEmail: email});
+      });
   };
 };
 
@@ -68,9 +69,6 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
     const auth = firebase.auth();
     auth
       .createUserWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log('error', error);
-      })
       .then((data) => {
         var userID = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref();
@@ -94,6 +92,30 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
       .catch((error) => {
         dispatch({type: SIGNUP_FAILED, payload: error});
       });
+  };
+};
+
+export const currentUser = () => {
+  return (dispatch) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase
+          .database()
+          .ref()
+          .child(`user/${user.uid}`)
+          .on('value', (snapshot) => {
+            const data = snapshot.val();
+            console.log(data);
+            if (data === null) {
+              dispatch({type: USER_IS_BLOCKED, payload: user});
+            } else {
+              dispatch({type: CURRENT_USER_SUCCESS, payload: data});
+            }
+          });
+      } else {
+        dispatch({type: CURRENT_USER_FAILED});
+      }
+    });
   };
 };
 

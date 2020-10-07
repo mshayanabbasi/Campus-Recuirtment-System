@@ -91,61 +91,51 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const StudentRegistration = (props) => {
   console.log('Student Registration', props);
-  // const onAdd = (
-  //   firstName,
-  //   lastName,
-  //   age,
-  //   skills,
-  //   department,
-  //   email,
-  //   qualification,
-  //   gender,
-  // ) => {
-  //   // const { userId, firstName,  }
-  //   props.newStudent({
-  //     // userId: ,
-  //     firstName,
-  //     lastName,
-  //     age,
-  //     skills,
-  //     department,
-  //     email,
-  //     qualification,
-  //     gender,
-  //     type: props.user.type,
-  //   });
-  //   console.log('Successfully add');
-  // };
-  // console.log('form', props.currentUser);
+  // console.log('userId', props.currentUser.uid);
+  const onAdd = ({firstName, lastName, age, skills, department, gender}) => {
+    props.newStudent({
+      userId: props.user.userID,
+      firstName,
+      lastName,
+      age,
+      skills,
+      department,
+      email: props.user.email,
+      gender,
+      type: props.user.type,
+    });
+    props.navigation.navigate('Companies', {screen: 'Company'});
+  };
   return (
     <ScrollView>
       <Formik
         initialValues={{
-          name: '',
-          lname: '',
+          firstName: '',
+          lastName: '',
           age: '',
           skills: '',
           department: '',
           phone: '',
           gender: '',
         }}
-        onSubmit={(values) => console.log(values)}>
+        onSubmit={(values) => onAdd(values)}>
         {({handleChange, handleSubmit, values}) => (
           <Card>
             <Text h4>Student Registration Form</Text>
             <Input
-              value={values.name}
+              value={values.firstName}
               placeholder="First Name"
-              onChangeText={handleChange('name')}
+              onChangeText={handleChange('firstName')}
             />
             <Input
-              value={values.lname}
+              value={values.lastName}
               placeholder="Last Name"
-              onChangeText={handleChange('lname')}
+              onChangeText={handleChange('lastName')}
             />
             <Input
               value={values.age}
               placeholder="Age"
+              keyboardType="numeric"
               onChangeText={handleChange('age')}
             />
             <Input
@@ -156,6 +146,7 @@ const StudentRegistration = (props) => {
             <Input
               value={values.phone}
               placeholder="Phone Number"
+              keyboardType="numeric"
               onChangeText={handleChange('phone')}
             />
             <Input

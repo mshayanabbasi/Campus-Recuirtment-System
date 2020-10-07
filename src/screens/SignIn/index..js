@@ -5,6 +5,10 @@ import {Formik} from 'formik';
 import {connect} from 'react-redux';
 import {LOGIN} from '../../store/actions/authActions';
 import {ActivityIndicator} from 'react-native';
+import {
+  LOGIN_VALIDATION_EMAIL,
+  LOGIN_VALIDATION_PASSWORD,
+} from '../../store/Types';
 
 const SignIn = (props) => {
   const [loading, setLoading] = useState(false);
@@ -26,7 +30,7 @@ const SignIn = (props) => {
         password: '',
       }}
       onSubmit={(values) => signIn(values)}>
-      {({handleChange, handleSubmit, values}) => (
+      {({handleChange, handleSubmit, values, errors, touched}) => (
         <Card>
           <Text style={{fontSize: 22, fontWeight: 'bold'}}>
             Campus Recuritment System
@@ -41,11 +45,13 @@ const SignIn = (props) => {
             value={values.email}
             placeholder="Email"
           />
+          {errors.email && touched.email && <Text>{props.error}</Text>}
           <Input
             onChangeText={handleChange('password')}
             value={values.password}
             placeholder="Password"
             secureTextEntry
+            errorMessage={props.error}
           />
           {loading ? (
             <ActivityIndicator
@@ -73,12 +79,15 @@ const SignIn = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
+    error: state.auth.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (a, b) => dispatch(LOGIN(a, b)),
+    LoginVE: () => dispatch({type: LOGIN_VALIDATION_EMAIL}),
+    LoginVP: () => dispatch({type: LOGIN_VALIDATION_PASSWORD}),
   };
 };
 

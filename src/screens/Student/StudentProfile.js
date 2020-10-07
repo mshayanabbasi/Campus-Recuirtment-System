@@ -1,63 +1,66 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Text, View} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {prevDataOfStudents} from '../../store/actions/studentActions';
 
 const StudentProfile = (props) => {
+  useEffect(() => {
+    props.allStudentData();
+  }, []);
+  const currentStudent = props.allStudents.find((v) => {
+    return v.userId === props.user.userID;
+  });
+  console.log(currentStudent);
   return (
     <Card>
       <Card.Title style={{fontSize: 20}}>Student's profile</Card.Title>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        First Name Muhammad
+        First Name {currentStudent.firstName}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Last Name Shayan
+        Last Name {currentStudent.lastName}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Age 28
+        Age {currentStudent.age}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Gender Male
+        Gender {currentStudent.gender}
+      </Text>
+      <Card.Divider />
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Skills {currentStudent.skills}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Qualification Bachelor's
+        Department {currentStudent.department}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Skills Mobile Application Developer
+        Email {currentStudent.email}
       </Text>
       <Card.Divider />
-      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Department BS
-      </Text>
-      <Card.Divider />
-      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Email mshayanabbai@gmail.com
-      </Text>
-      <Card.Divider />
-      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Contact Number 03331022234
-      </Text>
       <Button title="Edit" />
     </Card>
   );
 };
 
 const mapStateToProps = (state) => {
-  const userId = state.auth.currentUser ? state.auth.currentUser.uid : null;
-  const checkS = state.auth.currentUser
-    ? state.admin.Srequests.forEach((v) => v.userId === userId)
-    : null;
   return {
-    currentUser: state.auth.currentUser,
+    user: state.auth.user,
     allStudents: state.student.allStudents,
-    isDisabled: checkS,
   };
 };
 
-export default connect(mapStateToProps)(StudentProfile);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    allStudentData: () => dispatch(prevDataOfStudents()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentProfile);

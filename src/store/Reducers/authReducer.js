@@ -1,15 +1,18 @@
 import {
-  CURRENT_USER_FAILED,
-  CURRENT_USER_SUCCESS,
   SIGNUP_SUCCESS,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  CURRENT_USER_LOADING,
+  LOGIN_FAILED,
+  LOGIN_VALIDATION_PASSWORD,
+  LOGIN_VALIDATION_EMAIL,
+  CURRENT_USER_SUCCESS,
 } from '../Types';
 
 const initState = {
   user: null,
-  // isAuthenticated: false,
+  errorMessage: '',
+  logInEmail: false,
+  logInPass: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -20,7 +23,47 @@ const authReducer = (state = initState, action) => {
         ...state,
         user: action.payload,
       };
+
     case LOGIN_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case LOGIN_FAILED:
+      if (action.payload.code === 'auth/invalid-email') {
+        return {
+          ...state,
+          errorMessage: action.payload.message,
+          logInEmail: true,
+        };
+      } else if (action.payload.code === 'auth/user-not-found') {
+        return {
+          ...state,
+          errorMessage: action.payload.message,
+          logInPass: true,
+        };
+      } else if (action.payload.code === 'auth/wrong-password') {
+        return {
+          ...state,
+          errorMessage: action.payload.message,
+          logInEmail: true,
+        };
+      } else {
+        return state;
+      }
+    case LOGIN_VALIDATION_EMAIL:
+      return {
+        ...state,
+        errorMessage: 'Please enter your email address',
+        logInEmail: true,
+      };
+    case LOGIN_VALIDATION_PASSWORD:
+      return {
+        ...state,
+        errorMessage: 'Please enter your password',
+        logInPass: true,
+      };
+    case CURRENT_USER_SUCCESS:
       return {
         ...state,
         user: action.payload,
@@ -34,7 +77,6 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: {},
-        // isAuthenticated: false,
       };
     default:
       return state;

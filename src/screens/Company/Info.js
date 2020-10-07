@@ -6,166 +6,58 @@ import {connect} from 'react-redux';
 import {addNewStudent} from '../../store/actions/studentActions';
 import {Formik} from 'formik';
 import AsyncStorage from '@react-native-community/async-storage';
+import {addNewCompany} from '../../store/actions/companyActions';
 
 const CompanyRegistration = (props) => {
   console.log('Company Registration', props);
-  // const [state, setState] = useState({
-  //   Name: '',
-  //   LName: '',
-  //   Age: '',
-  //   Gender: '',
-  //   Phone: '',
-  //   Email: '',
-  //   Qualification: '',
-  //   Skills: '',
-  //   Department: '',
-  //   edit: false,
-  //   editID: '',
-  //   block: false,
-  // });
-  //didmount
-  // useEffect(() => {
-  //   AsyncStorage.getItem('user').then(
-  //     (response) => console.log('response', response),
-  //     // setState({
-  //     //   ...state,
-  //     //   Email: JSON.parse(response),
-  //     // }),
-  //     // console.log('email', state.Email),
-  //   );
-  // console.log(state.Email.email);
-  // setState({...state, email: props.currentUser.email});
-  // if (props.currentUser) {
-  //   const userID = props.users.uid;
-  //   console.log(userID);
-  //   if (props.allStudents) {
-  //     props.allStudents.forEach((stu) => {
-  //       if (stu.userId === userID) {
-  //         setState({
-  //           ...state,
-  //           Name: stu.firstName,
-  //           LName: stu.lastName,
-  //           Age: stu.age,
-  //           Gender: stu.gender,
-  //           Phone: stu.phoneNumber,
-  //           Email: stu.email,
-  //           Skills: stu.skills,
-  //           Department: stu.department,
-  //           Qualification: stu.qualification,
-  //           edit: true,
-  //           editID: stu.id,
-  //           block: stu.block,
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
-  // }, []);
-  // willrecieveprops
-  // useEffect(() => {
-  //   console.log(props.currentUser);
-  //   if (props.currentUser) {
-  //     const userID = props.currentUser.uid;
-  //     console.log(userID);
-  //     if (props.allStudents) {
-  //       props.allStudents.forEach((stu) => {
-  //         if (stu.userId === userID) {
-  //           setState({
-  //             ...state,
-  //             Name: stu.firstName,
-  //             LName: stu.lastName,
-  //             Age: stu.age,
-  //             Gender: stu.gender,
-  //             Phone: stu.phoneNumber,
-  //             Email: stu.email,
-  //             Skills: stu.skills,
-  //             Department: stu.department,
-  //             Qualification: stu.qualification,
-  //             edit: true,
-  //             editID: stu.id,
-  //             block: stu.block,
-  //           });
-  //         }
-  //       });
-  //     }
-  //   }
-  // }, [props.currentUser, props.allStudents]);
-  // onAdd = (
-  //   firstName,
-  //   lastName,
-  //   age,
-  //   skills,
-  //   department,
-  //   email,
-  //   qualification,
-  //   gender,
-  // ) => {
-  //   // if (state.edit) {
-  //   //     props.UpdateRequest({
-  //   //         userId:props.currentUser.uid,
-  //   //         firstName: firstName,
-  //   //         lastName: lastName,
-  //   //         age: age,
-  //   //         skills: skills,
-  //   //         department: department,
-  //   //         email: email,
-  //   //         qualification: qualification,
-  //   //         gender: gender,
-  //   //         editID: state.editID,
-  //   //         type: props.type,
-  //   //         block: state.block,
-  //   //     });
-  //   // }
-  //   // else {
-  //   props.newStudent({
-  //     userId: props.currentUser.uid,
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //     age: age,
-  //     skills: skills,
-  //     department: department,
-  //     email: email,
-  //     qualification: qualification,
-  //     gender: gender,
-  //     editID: state.editID,
-  //     type: props.type,
-  //     block: state.block,
-  //   });
-  //   // }
-  // };
+  console.log('userId', props.user.userID);
+  const onAdd = ({cname, es, hrname, cnum}) => {
+    props.newCompany({
+      userId: props.user.userID,
+      cname,
+      es,
+      hrname,
+      cnum,
+      email: props.user.email,
+      type: props.user.type,
+    });
+    props.navigation.navigate('Students', {screen: 'Student'});
+  };
   // console.log('form', props.currentUser);
   return (
     <ScrollView>
       <Formik
         initialValues={{
-          CompanyName: '',
-          Established: '',
-          HRName: '',
-          ContactNumber: '',
+          cname: '',
+          es: '',
+          hrname: '',
+          cnum: '',
         }}
-        onSubmit={(values) => console.log(values)}>
+        onSubmit={(values) => onAdd(values)}>
         {({handleChange, handleSubmit, values}) => (
           <Card>
             <Text h4>Company Registration Form</Text>
             <Input
-              value={values.CompanyName}
+              value={values.cname}
               placeholder="Company Name"
-              onChangeText={handleChange('CompanyName')}
+              onChangeText={handleChange('cname')}
             />
             <Input
-              value={values.Established}
+              value={values.es}
               placeholder="Established"
-              onChangeText={handleChange('Established')}
+              keyboardType="numeric"
+              onChangeText={handleChange('es')}
             />
             <Input
-              value={values.HRName}
+              value={values.hrname}
               placeholder="HR Name"
-              onChangeText={handleChange('HRName')}
+              onChangeText={handleChange('hrname')}
             />
             <Input
-              value={values.ContactNumber}
+              value={values.cnum}
               placeholder="Contact Number"
-              onChangeText={handleChange('ContactNumber')}
+              keyboardType="numeric"
+              onChangeText={handleChange('cnum')}
             />
 
             <Button title="Register" onPress={handleSubmit} />
@@ -180,15 +72,17 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     allCompanies: state.student.allCompanies,
-    // type: state.auth.type,
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     newCompany: (obj) => dispatch(addNew(obj)),
-//     // UpdateRequest: (sdata) => dispatch(UpdationRequest(sdata)),
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newCompany: (obj) => dispatch(addNewCompany(obj)),
+    // UpdateRequest: (sdata) => dispatch(UpdationRequest(sdata)),
+  };
+};
 
-export default connect(mapStateToProps)(CompanyRegistration);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CompanyRegistration);

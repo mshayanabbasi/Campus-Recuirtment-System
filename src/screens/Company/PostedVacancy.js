@@ -1,55 +1,70 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, FlatList} from 'react-native';
 import {Card, Text, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {deleteVacany} from '../../store/actions/vacancyActions';
+import {
+  deleteVacany,
+  prevDataOfVacancies,
+} from '../../store/actions/vacancyActions';
 
 const PostedVacancy = (props) => {
-  const currentCompanyVacancies = props.allVacancies.forEach((stu) => {
-    return stu.userId === props.currentUser.uid;
-  });
+  useEffect(() => {
+    props.allVacanicesData();
+  }, []);
   return (
     <>
-      <Card>
-        <View>
-        {/* {v.jobname} */}
-              <Text>Job Name</Text>
-              {/* {v.description} */}
-              <Text>Description</Text>
-              {/* {v.salary} */}
-              <Text>Salary</Text>
-              {/* {v.ec} */}
-              <Text style={{paddingBottom: 20}}>EC</Text>
-              <Button title="Apply Now" />
-            </View>
-        {/* {currentCompanyVacancies.length > 0 ? (
-          currentCompanyVacancies.map((v, i) => {
+      {props.allVacancies.length > 0 ? (
+        <FlatList
+          data={props.allVacancies}
+          keyExtractor={(item) => item.userId}
+          renderItem={({item}) => {
+            console.log(item);
             return (
-              
+              <Card>
+                <View>
+                  <Text>{item.jobname}</Text>
+                  <Text>{item.jobdescription}</Text>
+                  <Text>{item.salary}</Text>
+                  <Text style={{paddingBottom: 20}}>{item.ec}</Text>
+                  <Button title="Apply Now" />
+                </View>
+              </Card>
             );
-            
-          })
-        ) : (
-          <View>
-            <Text>You didn't post any vacancy yet!</Text>
-          </View>
-        )} */}
-      </Card>
+          }}
+        />
+      ) : (
+        <View>
+          <Text>You didn't post any vacancy yet!</Text>
+        </View>
+      )}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.auth.currentUser,
+    user: state.auth.user,
     allVacancies: state.vacancy.allVacancies,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    allVacanicesData: () => dispatch(prevDataOfVacancies()),
     deleteVacancy: (did) => dispatch(deleteVacany(did)),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostedVacancy);
+
+{
+  /* <Card>
+              <View>
+                <Text>{v.jobname}</Text>
+                <Text>{v.description}</Text>
+                <Text>{v.salary}</Text>
+                <Text style={{paddingBottom: 20}}>{v.ec}</Text>
+                <Button title="Apply Now" />
+              </View>
+            </Card> */
+}

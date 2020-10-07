@@ -11,7 +11,7 @@ import SignUp from '../screens/SignUp';
 import {connect} from 'react-redux';
 import StudentRegistration from '../screens/Student/StudentRegistration';
 import Companies from '../screens/Company/Companies';
-import {SIGNOUT, UpdateUser} from '../store/actions/authActions';
+import {currentUser, SIGNOUT, UpdateUser} from '../store/actions/authActions';
 import Students from '../screens/Student/Students';
 import {Button} from 'react-native-elements';
 import {navigationRef} from '../RootNavigation';
@@ -27,6 +27,10 @@ import StudentDrawerContent from './StudentDrawerContent';
 import PostedVacancy from '../screens/Company/PostedVacancy';
 
 const AppNavigation = (props) => {
+  React.useEffect(() => {
+    props.currentUser();
+  }, []);
+
   const Drawer = createDrawerNavigator();
   const CompanyDrawer = () => {
     return (
@@ -176,6 +180,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    currentUser: () => dispatch(currentUser()),
     updateUser: (d) => dispatch(UpdateUser(d)),
     signOut: (a) => dispatch(SIGNOUT(a)),
   };

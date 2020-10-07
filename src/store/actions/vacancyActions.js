@@ -11,16 +11,17 @@ import * as firebase from 'firebase';
 export const addNewVacancy = (newVacany) => {
   return (dispatch) => {
     firebase.database().ref().child('vacancies').push(newVacany);
-    dispatch({type: NEW_VACANCIES, newVacany});
+    console.log(newVacany);
+    dispatch({type: NEW_VACANCIES, payload: newVacany});
   };
 };
 
-export const deleteVacany = (did) => {
-  return (dispatch) => {
-    firebase.database().ref().child(`vacancies/${did}`).remove();
-    dispatch({type: DELETE_VACANCY});
-  };
-};
+// export const deleteVacany = (did) => {
+//   return (dispatch) => {
+//     firebase.database().ref().child(`vacancies/${did}`).remove();
+//     dispatch({type: DELETE_VACANCY});
+//   };
+// };
 
 export const prevDataOfVacancies = () => {
   return (dispatch) => {
@@ -41,10 +42,9 @@ export const prevDataOfVacancies = () => {
             salary: data[key].salary,
             ec: data[key].ec,
             cname: data[key].cname,
-            block: data[key].block,
           });
         }
-        dispatch({type: PERVIOUS_DATA_OF_VACANCIES, dataP: TemArr});
+        dispatch({type: PERVIOUS_DATA_OF_VACANCIES, payload: TemArr});
       });
   };
 };
