@@ -15,7 +15,7 @@ const PostVacany = (props) => {
     props.allCompanyData();
   }, []);
   console.log('Post Vacancy', props);
-  // console.log('userId', props.user.userID);
+  console.log('userId', props.user.userID);
   console.log('current Company', props.currentCompany);
 
   const onAdd = ({jobname, jobdescription, ec, salary}) => {

@@ -13,6 +13,7 @@ const StudentReducer = (state = initState, action) => {
       };
     case NEW_STUDENT:
       return {
+        ...state,
         student: action.payload,
       };
 

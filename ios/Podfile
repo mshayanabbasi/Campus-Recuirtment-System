@@ -3,18 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'Campus_Recuirtment_System' do
+target 'campus_recuirtment_system' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'RNCPicker', :path => '../node_modules/@react-native-community/picker'
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
-
-  target 'Campus_Recuirtment_SystemTests' do
+  target 'campus_recuirtment_systemTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -29,10 +23,10 @@ target 'Campus_Recuirtment_System' do
   end
 end
 
-target 'Campus_Recuirtment_System-tvOS' do
-  # Pods for Campus_Recuirtment_System-tvOS
+target 'campus_recuirtment_system-tvOS' do
+  # Pods for campus_recuirtment_system-tvOS
 
-  target 'Campus_Recuirtment_System-tvOSTests' do
+  target 'campus_recuirtment_system-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

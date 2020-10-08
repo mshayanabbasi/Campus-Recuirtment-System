@@ -23,15 +23,16 @@ function CompanyDrawerContent(props) {
           </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              label="Home"
+              label="Student"
               onPress={() => {
                 props.navigation.navigate('Student');
               }}
             />
+
             <DrawerItem
               label="Post Vacancy"
               onPress={() => {
-                props.navigation.navigate('PostVacancy');
+                props.navigation.navigate('Post Vacancy');
               }}
             />
             <DrawerItem

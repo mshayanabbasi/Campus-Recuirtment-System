@@ -4,7 +4,7 @@ import {View, FlatList, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {prevDataOfStudents} from '../../store/actions/studentActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Student = (props) => {
   console.log('Students Screen', props);
@@ -20,19 +20,25 @@ const Student = (props) => {
           renderItem={({item}) => {
             console.log(item);
             return (
-              <Card>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View>
-                    <Text>{item.firstName}</Text>
-                    <Text>{item.department}</Text>
+              <TouchableOpacity onPress={() => {
+                props.navigation.navigate('Student Detail', {
+                  id: item.id
+                })
+              }}>
+                <Card>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View>
+                      <Text>{item.firstName}</Text>
+                      <Text>{item.department}</Text>
+                    </View>
+                    <Ionicons name="information-circle-outline" size={25} />
                   </View>
-                  <Ionicons name="information-circle-outline" size={30} />
-                </View>
-              </Card>
+                </Card>
+              </TouchableOpacity>
             );
           }}
         />

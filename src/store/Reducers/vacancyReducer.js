@@ -1,4 +1,5 @@
 import {
+  APPLY_NOW_VACANCY_SUCCESS,
   DELETE_VACANCY,
   ERROR_POST_COMPANY,
   NEW_VACANCIES,
@@ -11,9 +12,11 @@ const initialState = {
   errorFlag: false,
   errorMessage: '',
   vacancy: null,
+  applyJob: null,
 };
 
 const VacanyReducer = (state = initialState, action) => {
+  console.log('Vacancy Reducer', action);
   switch (action.type) {
     case PERVIOUS_DATA_OF_VACANCIES:
       return {
@@ -38,6 +41,11 @@ const VacanyReducer = (state = initialState, action) => {
         ...state,
         errorFlag: true,
         errorMessage: action.errorMessagePC,
+      };
+    case APPLY_NOW_VACANCY_SUCCESS:
+      return {
+        ...state,
+        applyJob: action.payload,
       };
     default:
       return state;

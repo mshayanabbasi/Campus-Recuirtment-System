@@ -80,8 +80,8 @@
 //   }
 // }, [props.currentUser, props.allStudents]);
 
-import React from 'react';
-import {Button, View, ScrollView, Modal} from 'react-native';
+import React, {useState} from 'react';
+import {Button, View, ScrollView, Modal, ActivityIndicator} from 'react-native';
 import {Text, Input, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 // import { UpdationRequest } from '../../store/actions/adminActions';
@@ -92,7 +92,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 const StudentRegistration = (props) => {
   console.log('Student Registration', props);
   // console.log('userId', props.currentUser.uid);
-  const onAdd = ({firstName, lastName, age, skills, department, gender}) => {
+  const onAdd = ({
+    firstName,
+    lastName,
+    age,
+    skills,
+    department,
+    gender,
+    phoneNumber,
+  }) => {
     props.newStudent({
       userId: props.user.userID,
       firstName,
@@ -103,6 +111,7 @@ const StudentRegistration = (props) => {
       email: props.user.email,
       gender,
       type: props.user.type,
+      phoneNumber,
     });
     props.navigation.navigate('Companies', {screen: 'Company'});
   };
@@ -115,7 +124,7 @@ const StudentRegistration = (props) => {
           age: '',
           skills: '',
           department: '',
-          phone: '',
+          phoneNumber: '',
           gender: '',
         }}
         onSubmit={(values) => onAdd(values)}>
@@ -144,10 +153,10 @@ const StudentRegistration = (props) => {
               onChangeText={handleChange('skills')}
             />
             <Input
-              value={values.phone}
+              value={values.phoneNumber}
               placeholder="Phone Number"
               keyboardType="numeric"
-              onChangeText={handleChange('phone')}
+              onChangeText={handleChange('phoneNumber')}
             />
             <Input
               value={values.department}
@@ -159,8 +168,7 @@ const StudentRegistration = (props) => {
               placeholder="Gender"
               onChangeText={handleChange('gender')}
             />
-
-            <Button title="Register" onPress={handleSubmit} />
+            <Button onPress={handleSubmit} title="Register" />
           </Card>
         )}
       </Formik>

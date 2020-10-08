@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 export const addNewStudent = (newStudent) => {
   return (dispatch) => {
     firebase.database().ref().child('students').push(newStudent);
-    console.log(newStudent);
     dispatch({type: NEW_STUDENT, payload: newStudent});
   };
 };
@@ -19,7 +18,7 @@ export const prevDataOfStudents = () => {
         .child('students')
         .on('value', (snapshot) => {
           const data = snapshot.val();
-          console.log(data);
+          console.log('data', data);
           const TemArr = [];
           for (let key in data) {
             TemArr.push({

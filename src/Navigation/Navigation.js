@@ -14,7 +14,6 @@ import Companies from '../screens/Company/Companies';
 import {currentUser, SIGNOUT, UpdateUser} from '../store/actions/authActions';
 import Students from '../screens/Student/Students';
 import {Button} from 'react-native-elements';
-import {navigationRef} from '../RootNavigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import CompanyDrawerContent from './CompanyDrawerContent';
 import PostVacancy from '../screens/Company/PostVacancy';
@@ -25,6 +24,9 @@ import CompanyProfile from '../screens/Company/CompanyProfile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import StudentDrawerContent from './StudentDrawerContent';
 import PostedVacancy from '../screens/Company/PostedVacancy';
+import CompanyDetails from '../screens/Company/CompanyDetails';
+import StudentDetails from '../screens/Student/StudentDetails';
+import VacanciesDetail from '../screens/Company/VacanciesDetail';
 
 const AppNavigation = (props) => {
   React.useEffect(() => {
@@ -37,7 +39,7 @@ const AppNavigation = (props) => {
       <Drawer.Navigator
         drawerContent={(props) => <CompanyDrawerContent {...props} />}>
         <Drawer.Screen name="Student" component={Students} />
-        <Drawer.Screen name="PostVacancy" component={PostVacancy} />
+        <Drawer.Screen name="Post Vacancy" component={PostVacancy} />
         <Drawer.Screen name="Company Profile" component={CompanyProfile} />
       </Drawer.Navigator>
     );
@@ -47,7 +49,7 @@ const AppNavigation = (props) => {
       <Drawer.Navigator
         drawerContent={(props) => <StudentDrawerContent {...props} />}>
         <Drawer.Screen name="Company" component={Companies} />
-        <Drawer.Screen name="Posted Vacancies" component={PostedVacancy} />
+        <Drawer.Screen name="Vacancies" component={PostedVacancy} />
         <Drawer.Screen name="Student Profile" component={StudentProfile} />
       </Drawer.Navigator>
     );
@@ -96,6 +98,8 @@ const AppNavigation = (props) => {
             headerLeft: null,
           })}
         />
+        <Stack.Screen name="Company Detail" component={CompanyDetails} />
+        <Stack.Screen name="Vacancies Detail" component={VacanciesDetail} />
       </Stack.Navigator>
     );
   }
@@ -129,6 +133,7 @@ const AppNavigation = (props) => {
             headerLeft: null,
           })}
         />
+        <Stack.Screen name="Student Detail" component={StudentDetails} />
       </Stack.Navigator>
     );
   }
@@ -155,7 +160,7 @@ const AppNavigation = (props) => {
   }
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Root"

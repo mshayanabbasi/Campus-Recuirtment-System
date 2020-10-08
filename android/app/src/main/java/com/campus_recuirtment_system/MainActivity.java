@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Campus_Recuirtment_System";
+    return "campus_recuirtment_system";
   }
 }

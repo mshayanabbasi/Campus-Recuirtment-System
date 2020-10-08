@@ -1,13 +1,16 @@
 import React, {useEffect} from 'react';
 import {View, FlatList} from 'react-native';
 import {Card, Text, Button} from 'react-native-elements';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {
   deleteVacany,
   prevDataOfVacancies,
 } from '../../store/actions/vacancyActions';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PostedVacancy = (props) => {
+  console.log('Posted Vacancy', props);
   useEffect(() => {
     props.allVacanicesData();
   }, []);
@@ -20,15 +23,23 @@ const PostedVacancy = (props) => {
           renderItem={({item}) => {
             console.log(item);
             return (
-              <Card>
-                <View>
-                  <Text>{item.jobname}</Text>
-                  <Text>{item.jobdescription}</Text>
-                  <Text>{item.salary}</Text>
-                  <Text style={{paddingBottom: 20}}>{item.ec}</Text>
-                  <Button title="Apply Now" />
-                </View>
-              </Card>
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate('Vacancies Detail', {
+                    id: item.postId,
+                  })
+                }>
+                <Card>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text>{item.jobname}</Text>
+                    <Ionicons name="information-circle-outline" size={25} />
+                  </View>
+                </Card>
+              </TouchableOpacity>
             );
           }}
         />
@@ -56,15 +67,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostedVacancy);
-
-{
-  /* <Card>
-              <View>
-                <Text>{v.jobname}</Text>
-                <Text>{v.description}</Text>
-                <Text>{v.salary}</Text>
-                <Text style={{paddingBottom: 20}}>{v.ec}</Text>
-                <Button title="Apply Now" />
-              </View>
-            </Card> */
-}

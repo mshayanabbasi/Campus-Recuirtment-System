@@ -1,42 +1,53 @@
-import React, { useEffect } from 'react';
-import {Card, ListItem, Text} from 'react-native-elements';
-import {View, FlatList} from 'react-native';
+import React, {useEffect} from 'react';
+import {Card, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
-const AllStudents = (props) => {
-  console.log(props);
-  
+const StudentDetails = (props) => {
+  console.log('Student Details', props);
+  const currentStudent = props.allStudents.find(
+    (v) => v.id === props.route.params.id,
+  );
+  console.log('Current Student', currentStudent);
   return (
-    <>
-      {props.allStudents.length > 0 ? (
-        <Card>
-          <Text>All Students</Text>
-          <FlatList
-            data={props.allStudents}
-            keyExtractor={(item) => item.userId}
-            renderItem={({item}) => {
-              console.log(item);
-              return (
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>{item.firstName}</ListItem.Title>
-                    <ListItem.Subtitle>{item.department}</ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
-              );
-            }}
-          />
-        </Card>
-      ) : (
-        <View>
-          <Text>Sorry, No Student Available</Text>
-        </View>
-      )}
-    </>
+    <Card>
+      <Card.Title style={{fontSize: 20}}>Student's profile</Card.Title>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        First Name {currentStudent?.firstName}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Last Name {currentStudent?.lastName}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Age {currentStudent?.age}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Gender {currentStudent?.gender}
+      </Text>
+      <Card.Divider />
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Skills {currentStudent?.skills}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Department {currentStudent?.department}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Email {currentStudent?.email}
+      </Text>
+      <Card.Divider />
+      <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
+        Phone Number {currentStudent?.phoneNumber}
+      </Text>
+    </Card>
   );
 };
 
 const mapStateToProps = (state) => {
-
   return {
     allStudents: state.student.allStudents,
     // currentUser: state.auth.currentUser,
@@ -44,4 +55,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AllStudents);
+export default connect(mapStateToProps)(StudentDetails);

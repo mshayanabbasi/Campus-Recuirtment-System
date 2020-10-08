@@ -9,32 +9,32 @@ const CompanyProfile = (props) => {
   useEffect(() => {
     props.allCompanyData();
   }, []);
-  const currentCompany = props.allCompanies.find((v) => {
-    return v.userId === props.user.userID;
-  });
-  console.log(currentCompany);
+  const currentCompany = props.allCompanies.find(
+    (v) => v.userId === props.user.userID,
+  );
+  console.log('current Company', currentCompany);
   return (
     <Card>
       <Card.Title style={{fontSize: 20}}>Company's profile</Card.Title>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Company Name {currentCompany.cname}
+        Company Name {currentCompany?.cname}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Established {currentCompany.es}
+        Established {currentCompany?.es}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        HR Name {currentCompany.hrname}
+        HR Name {currentCompany?.hrname}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Email {currentCompany.email}
+        Email {currentCompany?.email}
       </Text>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
-        Contact Number {currentCompany.cnum}
+        Contact Number {currentCompany?.cnum}
       </Text>
       <Card.Divider />
       <Button title="Edit" />

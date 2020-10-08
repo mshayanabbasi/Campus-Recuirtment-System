@@ -30,9 +30,9 @@ function StudentDrawerContent(props) {
             />
 
             <DrawerItem
-              label="Posted Vacancies"
+              label="Vacancies"
               onPress={() => {
-                props.navigation.navigate('Posted Vacancies');
+                props.navigation.navigate('Vacancies');
               }}
             />
             <DrawerItem

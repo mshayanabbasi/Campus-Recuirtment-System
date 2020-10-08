@@ -1,11 +1,8 @@
-import React from 'react';
-import {Button, View, ScrollView} from 'react-native';
-import {Text, Input, Modal, Card} from 'react-native-elements';
+import React, {useState} from 'react';
+import {Button, ScrollView} from 'react-native';
+import {Text, Input, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-// import { UpdationRequest } from '../../store/actions/adminActions';
-import {addNewStudent} from '../../store/actions/studentActions';
 import {Formik} from 'formik';
-import AsyncStorage from '@react-native-community/async-storage';
 import {addNewCompany} from '../../store/actions/companyActions';
 
 const CompanyRegistration = (props) => {
@@ -59,8 +56,7 @@ const CompanyRegistration = (props) => {
               keyboardType="numeric"
               onChangeText={handleChange('cnum')}
             />
-
-            <Button title="Register" onPress={handleSubmit} />
+            <Button onPress={handleSubmit} title="Register" />
           </Card>
         )}
       </Formik>

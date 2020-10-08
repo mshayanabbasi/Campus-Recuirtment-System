@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList, Text, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {PrevDataOfCompanies} from '../../store/actions/companyActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {} from 'react-native-gesture-handler';
 
 const Companies = (props) => {
   console.log('Companies', props);
@@ -21,14 +22,21 @@ const Companies = (props) => {
           keyExtractor={(item) => item.companyID}
           renderItem={({item}) => {
             return (
-              <Card
-                wrapperStyle={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('Company Detail', {
+                    id: item.companyID,
+                  });
                 }}>
-                <Text>{item.cname}</Text>
-                <Ionicons name="information-circle-outline" size={30} />
-              </Card>
+                <Card
+                  wrapperStyle={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text>{item.cname}</Text>
+                  <Ionicons name="information-circle-outline" size={25} />
+                </Card>
+              </TouchableOpacity>
             );
           }}
         />
