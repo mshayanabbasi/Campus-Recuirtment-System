@@ -10,7 +10,6 @@ import {
   PERVIOUS_DATA_OF_VACANCIES,
   REMOVE_ERROR_MESSAGES_POST_COMPANY,
 } from '../Types';
-import '../../config/firebaseConfig';
 import * as firebase from 'firebase';
 
 export const addNewVacancy = (newVacany) => {

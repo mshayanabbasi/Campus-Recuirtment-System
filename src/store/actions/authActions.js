@@ -12,9 +12,9 @@ import {
   CURRENT_USER_SUCCESS,
   CURRENT_USER_FAILED,
 } from '../Types';
-import '../../config/firebaseConfig';
-import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 
 export const LOGIN = ({email, password}, navigation) => {
   const obj = {
@@ -23,16 +23,15 @@ export const LOGIN = ({email, password}, navigation) => {
   };
   return (dispatch) => {
     dispatch({type: LOGIN_LOADING});
-    firebase
-      .auth()
+    auth()
       .signInWithEmailAndPassword(email, password)
       .then((data) => {
         console.log('data', data);
         if (email === 'admin@gmail.com' && password === 'admin12345') {
           console.log('Successfully Sign In admin');
         } else {
-          const userId = firebase.auth().currentUser.uid;
-          const database = firebase.database().ref();
+          const userId = auth().currentUser.uid;
+          const database = database().ref();
           const speedRef = database.child('user/' + userId);
           speedRef.on('value', (snapshot) => {
             const {email, name, type} = snapshot.val();
@@ -66,13 +65,13 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
   };
   return (dispatch) => {
     dispatch({type: SIGNUP_LOADING});
-    const auth = firebase.auth();
-    auth
+
+    auth()
       .createUserWithEmailAndPassword(email, password)
       .then((data) => {
-        var userID = firebase.auth().currentUser.uid;
-        var ref = firebase.database().ref();
-        ref.child('user' + '/' + firebase.auth().currentUser.uid).set({
+        var userID = auth().currentUser.uid;
+        var ref = database().ref();
+        ref.child('user' + '/' + auth().currentUser.uid).set({
           userID,
           ...obj,
         });
@@ -97,10 +96,9 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
 
 export const currentUser = () => {
   return (dispatch) => {
-    firebase.auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
-        firebase
-          .database()
+        database()
           .ref()
           .child(`user/${user.uid}`)
           .on('value', (snapshot) => {
@@ -123,8 +121,7 @@ export const SIGNOUT = (navigation) => {
   return (dispatch) => {
     dispatch({type: LOGOUT_LOADING});
     try {
-      firebase
-        .auth()
+      auth()
         .signOut()
         .then(() => {
           AsyncStorage.removeItem('user').then(() => {

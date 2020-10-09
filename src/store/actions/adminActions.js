@@ -13,20 +13,18 @@ import {
   UN_BLOCK_COMPANY,
   UN_BLOCK_STUDENT,
 } from '../Types';
-import '../../config/firebaseConfig';
-import * as firebase from 'firebase';
+import database from '@react-native-firebase/database';
 
 export const BlockS = (studentId, studentUserId) => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('user/' + studentUserId + 'type/')
       .remove();
-    firebase.database().ref().child('BlockList').push(studentId);
+    database().ref().child('BlockList').push(studentId);
     const updates = {};
     updates['block'] = true;
-    firebase.database().ref().child(`students/${studentId}`).update(updates);
+    database().ref().child(`students/${studentId}`).update(updates);
     dispatch({type: BLOCK_STUDENT});
   };
 };
@@ -35,17 +33,16 @@ export const UnBlockS = (studentId, studentUserId, BUKey) => {
   return (dispatch) => {
     const updates = {};
     updates['block'] = false;
-    firebase
-      .database()
+    database()
       .ref()
       .child('user/' + studentUserId + '/type')
       .set({type: 'student'});
-    firebase
-      .database()
+
+    database()
       .ref()
       .child('BlockList' + BUKey)
       .remove();
-    firebase.database().ref().child(`students/${studentId}`).update(updates);
+    database().ref().child(`students/${studentId}`).update(updates);
     dispatch({type: UN_BLOCK_STUDENT});
   };
 };
@@ -60,11 +57,11 @@ export const BlockC = (companyId, companyUserId) => {
     console.log(sp);
     const updates = {};
     updates['block'] = true;
-    firebase.database().ref().child(`user/${companyUserId}/type`).remove();
-    firebase.database().ref().child('BlockList').push(companyUserId);
-    firebase.database().ref().child(`companies/${companyId}`).update(updates);
+    database().ref().child(`user/${companyUserId}/type`).remove();
+    database().ref().child('BlockList').push(companyUserId);
+    database().ref().child(`companies/${companyId}`).update(updates);
     sp.forEach((v) =>
-      firebase.database().ref().child(`vacancies/${v.postId}`).update(updates),
+      database().ref().child(`vacancies/${v.postId}`).update(updates),
     );
     dispatch({type: BLOCK_COMPANY});
   };
@@ -80,15 +77,15 @@ export const UnBlockC = (companyId, companyUserId, BUkey) => {
     console.log(sp);
     const updates = {};
     updates['block'] = false;
-    firebase
-      .database()
+
+    database()
       .ref()
       .child('user/' + companyUserId + '/type')
       .set({type: 'company'});
-    firebase.database().ref().child(`BlockList/${BUkey}`).remove();
-    firebase.database().ref().child(`companies/${companyId}`).update(updates);
+    database().ref().child(`BlockList/${BUkey}`).remove();
+    database().ref().child(`companies/${companyId}`).update(updates);
     sp.forEach((v) =>
-      firebase.database().ref().child(`vacancies/${v.postId}`).update(updates),
+      database().ref().child(`vacancies/${v.postId}`).update(updates),
     );
     dispatch({type: UN_BLOCK_COMPANY});
   };
@@ -96,8 +93,7 @@ export const UnBlockC = (companyId, companyUserId, BUkey) => {
 
 export const BlockList = () => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('BlockList')
       .on('value', (snapshot) => {
@@ -114,21 +110,11 @@ export const BlockList = () => {
 export const UpdationRequest = (data) => {
   return (dispatch) => {
     if (data.type === 'student') {
-      firebase
-        .database()
-        .ref()
-        .child('UpdationRequest')
-        .child('student')
-        .push(data);
+      database().ref().child('UpdationRequest').child('student').push(data);
       dispatch({type: SAVE_STUDENT_UPDATION_DATA});
     }
     if (data.type === 'company') {
-      firebase
-        .database()
-        .ref()
-        .child('UpdationRequest')
-        .child('company')
-        .push(data);
+      database().ref().child('UpdationRequest').child('company').push(data);
       dispatch({type: SAVE_COMPANY_UPDATION_DATA});
     }
   };
@@ -136,8 +122,7 @@ export const UpdationRequest = (data) => {
 
 export const prevDataOfUpdationRequests = () => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('UpdationRequest')
       .child('student')
@@ -168,8 +153,7 @@ export const prevDataOfUpdationRequests = () => {
           SupdationRequestsData: TemArrS,
         });
       });
-    firebase
-      .database()
+    database()
       .ref()
       .child('UpdationRequest')
       .child('student')
@@ -216,9 +200,8 @@ export const RequestSAccept = (editId, updationId) => {
       department: sp.department,
       block: sp.block,
     };
-    firebase.database().ref().child(`students/${editId}`).update(TemObj);
-    firebase
-      .database()
+    database().ref().child(`students/${editId}`).update(TemObj);
+    database()
       .ref()
       .child('UpdationRequest')
       .child(`students/${updationId}`)
@@ -240,9 +223,8 @@ export const RequestCAccept = (editId, updationId) => {
       cnum: sp.cnum,
       block: sp.block,
     };
-    firebase.database().ref().child(`companies/${editId}`).update(TemObj);
-    firebase
-      .database()
+    database().ref().child(`companies/${editId}`).update(TemObj);
+    database()
       .ref()
       .child('UpdationRequest')
       .child(`company/${updationId}`)
@@ -253,8 +235,7 @@ export const RequestCAccept = (editId, updationId) => {
 
 export const RequestSCancel = (updationId) => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('UpdationRequest')
       .child(`student/${updationId}`)
@@ -265,8 +246,7 @@ export const RequestSCancel = (updationId) => {
 
 export const RequestCCancel = (updationId) => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('UpdationRequest')
       .child(`company/${updationId}`)
