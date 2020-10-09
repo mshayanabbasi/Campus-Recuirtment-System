@@ -9,10 +9,19 @@ import {
   LOGIN_VALIDATION_EMAIL,
   LOGIN_VALIDATION_PASSWORD,
 } from '../../store/Types';
+import * as Yup from 'yup';
 
 const SignIn = (props) => {
   const [loading, setLoading] = useState(false);
   console.log('SignIn', props);
+
+  const loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email')
+      .required('This field is required'),
+    password: Yup.string().required('This field is required'),
+  });
+
   let signIn = (data) => {
     const {email, password} = data;
     const {navigation} = props;
@@ -29,6 +38,7 @@ const SignIn = (props) => {
         email: '',
         password: '',
       }}
+      validationSchema={loginSchema}
       onSubmit={(values) => signIn(values)}>
       {({handleChange, handleSubmit, values, errors, touched}) => (
         <Card>
@@ -45,14 +55,20 @@ const SignIn = (props) => {
             value={values.email}
             placeholder="Email"
           />
-          {errors.email && touched.email && <Text>{props.error}</Text>}
+          {errors.email && touched.email ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>{errors.email}</Text>
+          ) : null}
           <Input
             onChangeText={handleChange('password')}
             value={values.password}
             placeholder="Password"
             secureTextEntry
-            errorMessage={props.error}
           />
+          {errors.password && touched.password ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>
+              {errors.password}
+            </Text>
+          ) : null}
           {loading ? (
             <ActivityIndicator
               animating={loading}

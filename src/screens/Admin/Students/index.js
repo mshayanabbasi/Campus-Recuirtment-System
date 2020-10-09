@@ -7,7 +7,7 @@ const AllStudents = (props) => {
 
   return (
     <>
-      {/* {props.allStudents.length > 0 ? ( */}
+      {props.allStudents.length > 0 ? (
         <Card>
           <Text>All Students</Text>
           <FlatList
@@ -26,11 +26,11 @@ const AllStudents = (props) => {
             }}
           />
         </Card>
-      {/* ) : ( */}
-        {/* <View>
+      ) : (
+        <View>
           <Text>Sorry, No Student Available</Text>
-        </View> */}
-      {/* )} */}
+        </View>
+      )}
     </>
   );
 };

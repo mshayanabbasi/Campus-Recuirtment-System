@@ -1,5 +1,6 @@
 import {
   APPLY_NOW_VACANCY_SUCCESS,
+  APPLY_VACANCY_DATA_SUCCESS,
   DELETE_VACANCY,
   ERROR_POST_COMPANY,
   NEW_VACANCIES,
@@ -13,6 +14,7 @@ const initialState = {
   errorMessage: '',
   vacancy: null,
   applyJob: null,
+  candidates: [],
 };
 
 const VacanyReducer = (state = initialState, action) => {
@@ -46,6 +48,11 @@ const VacanyReducer = (state = initialState, action) => {
       return {
         ...state,
         applyJob: action.payload,
+      };
+    case APPLY_VACANCY_DATA_SUCCESS:
+      return {
+        ...state,
+        candidates: action.payload,
       };
     default:
       return state;

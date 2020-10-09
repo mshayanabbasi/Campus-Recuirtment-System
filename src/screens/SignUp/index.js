@@ -6,10 +6,24 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {connect} from 'react-redux';
 import '../../config/firebaseConfig';
 import {SIGNUP} from '../../store/actions/authActions';
+import * as Yup from 'yup';
 
 const SignUp = (props) => {
   console.log('SignUp', props);
   const [loading, setLoading] = useState(false);
+
+  const signUpSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, 'To Short')
+      .max(20, 'To Long')
+      .required('This field is required'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('This field is required'),
+    password: Yup.string().required('This field is required'),
+    selectedValue: Yup.string().required('This field is required'),
+  });
+
   let signUp = (data) => {
     const {name, email, password, selectedValue} = data;
     const {navigation} = props;
@@ -22,6 +36,7 @@ const SignUp = (props) => {
     props.signUp(obj, navigation);
     setLoading(true);
   };
+
   console.log('user', props.user);
   return (
     <Formik
@@ -31,10 +46,19 @@ const SignUp = (props) => {
         password: '',
         selectedValue: '',
       }}
+      validationSchema={signUpSchema}
       onSubmit={(values) => {
         signUp(values);
       }}>
-      {({handleChange, handleSubmit, values, setFieldValue}) => (
+      {({
+        handleChange,
+        handleSubmit,
+        values,
+        setFieldValue,
+        handleBlur,
+        errors,
+        touched,
+      }) => (
         <Card>
           <Text style={{fontSize: 22, fontWeight: 'bold'}}>
             Campus Recuritment System
@@ -49,17 +73,28 @@ const SignUp = (props) => {
             value={values.name}
             placeholder="Name"
           />
+          {errors.name && touched.name ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>{errors.name}</Text>
+          ) : null}
           <Input
             onChangeText={handleChange('email')}
             value={values.email}
             placeholder="Email"
           />
+          {errors.email && touched.email ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>{errors.email}</Text>
+          ) : null}
           <Input
             onChangeText={handleChange('password')}
             value={values.password}
             placeholder="Password"
             secureTextEntry
           />
+          {errors.password && touched.password ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>
+              {errors.password}
+            </Text>
+          ) : null}
           <DropDownPicker
             items={[
               {label: 'Admin', value: 'admin'},
@@ -80,6 +115,11 @@ const SignUp = (props) => {
               handleChange('selectedValue');
             }}
           />
+          {errors.selectedValue && touched.selectedValue ? (
+            <Text style={{color: 'red', paddingBottom: 5}}>
+              {errors.selectedValue}
+            </Text>
+          ) : null}
           {loading ? (
             <ActivityIndicator
               animating={loading}

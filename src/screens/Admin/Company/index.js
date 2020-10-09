@@ -10,7 +10,7 @@ const AllCompanies = (props) => {
   // };
   return (
     <>
-      {/* {props.allCompanies.length > 0 ? ( */}
+      {props.allCompanies.length > 0 ? (
         <Card>
           <FlatList
             data={props.allCompanies}
@@ -26,11 +26,11 @@ const AllCompanies = (props) => {
             }}
           />
         </Card>
-      {/* ) : ( */}
-        {/* <View>
+      ) : (
+        <View>
           <Text>Sorry, No Company Available</Text>
-        </View> */}
-      {/* )} */}
+        </View>
+      )}
     </>
   );
 };

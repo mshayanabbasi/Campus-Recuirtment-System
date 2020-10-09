@@ -25,7 +25,8 @@ const PostVacany = (props) => {
       jobdescription,
       ec,
       salary,
-      cname: props.currentCompany.cname,
+      cname: props.currentCompany?.cname,
+      companyID: props.currentCompany?.companyID,
     });
     props.navigation.navigate('Student');
   };

@@ -3,8 +3,8 @@ import {Card, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 const StudentDetails = (props) => {
   console.log('Student Details', props);
-  const currentStudent = props.allStudents.find(
-    (v) => v.id === props.route.params.id,
+  const currentStudent = props.candidates.find(
+    (v) => v.vacanyDataId === props.route.params.id,
   );
   console.log('Current Student', currentStudent);
   return (
@@ -26,7 +26,6 @@ const StudentDetails = (props) => {
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         Gender {currentStudent?.gender}
       </Text>
-      <Card.Divider />
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         Skills {currentStudent?.skills}
@@ -50,7 +49,7 @@ const StudentDetails = (props) => {
 const mapStateToProps = (state) => {
   return {
     allStudents: state.student.allStudents,
-    // currentUser: state.auth.currentUser,
+    candidates: state.vacancy.candidates,
     user: state.auth.user,
   };
 };

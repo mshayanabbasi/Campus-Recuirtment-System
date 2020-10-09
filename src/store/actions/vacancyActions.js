@@ -2,6 +2,8 @@ import {
   APPLY_NOW_VACANCY_FAILED,
   APPLY_NOW_VACANCY_LOADING,
   APPLY_NOW_VACANCY_SUCCESS,
+  APPLY_VACANCY_DATA_LOADING,
+  APPLY_VACANCY_DATA_SUCCESS,
   DELETE_VACANCY,
   ERROR_POST_COMPANY,
   NEW_VACANCIES,
@@ -45,6 +47,7 @@ export const prevDataOfVacancies = () => {
             salary: data[key].salary,
             ec: data[key].ec,
             cname: data[key].cname,
+            companyID: data[key].companyID,
           });
         }
         dispatch({type: PERVIOUS_DATA_OF_VACANCIES, payload: TemArr});
@@ -68,10 +71,54 @@ export const ApplyVacancy = (applyVacancy) => {
   return (dispatch) => {
     dispatch({type: APPLY_NOW_VACANCY_LOADING});
     try {
-      firebase.database().ref().child('applyvacancy').push(applyVacancy);
+      console.log(applyVacancy);
+      // firebase
+      //   .database()
+      //   .ref(`companies/`)
+      //   .on('value', (snapshot) => {
+      //     console.log(snapshot.val());
+      //   });
+      // console.log(firebase.auth().currentUser.uid);
+      firebase
+        .database()
+        .ref()
+        .child(`companies/${applyVacancy.companyID}/candidates`)
+        .push(applyVacancy);
+      console.log(id, 'id');
       dispatch({type: APPLY_NOW_VACANCY_SUCCESS, payload: applyVacancy});
     } catch (error) {
       dispatch({type: APPLY_NOW_VACANCY_FAILED, error});
     }
+  };
+};
+
+export const ApplyVacancyData = (id) => {
+  return (dispatch) => {
+    dispatch({type: APPLY_VACANCY_DATA_LOADING});
+    firebase
+      .database()
+      .ref()
+      .child(`companies/${id}/candidates`)
+      .on('value', (snapshot) => {
+        const data = snapshot.val();
+        console.log('data', data);
+        const TemArr = [];
+        for (let key in data) {
+          TemArr.push({
+            vacanyDataId: key,
+            vacancyId: data[key].vacancyId,
+            companyID: data[key].companyID,
+            firstName: data[key].firstName,
+            lastName: data[key].lastName,
+            gender: data[key].gender,
+            age: data[key].age,
+            skills: data[key].skills,
+            phoneNumber: data[key].phoneNumber,
+            email: data[key].email,
+            department: data[key].department,
+          });
+        }
+        dispatch({type: APPLY_VACANCY_DATA_SUCCESS, payload: TemArr});
+      });
   };
 };

@@ -6,6 +6,7 @@ import {prevDataOfStudents} from '../../store/actions/studentActions';
 
 const VacancieDetails = (props) => {
   console.log('Vacancie Details', props);
+  console.log('params', props.route.params);
 
   useEffect(() => {
     props.allStudentsData();
@@ -23,17 +24,10 @@ const VacancieDetails = (props) => {
 
   console.log(currentVacancy, 'Current Vacancy');
 
-  const onAdd = (
-    firstName,
-    lastName,
-    age,
-    department,
-    skills,
-    phoneNumber,
-    email,
-    gender,
-  ) => {
-    props.applyJob({
+  const onAdd = () => {
+    // console.log(id, 'id');
+    console.log(currentVacancy, 'currentVacancy');
+    const obj = {
       firstName: currentStudent?.firstName,
       lastName: currentStudent?.lastName,
       age: currentStudent?.age,
@@ -43,8 +37,11 @@ const VacancieDetails = (props) => {
       phoneNumber: currentStudent?.phoneNumber,
       email: currentStudent?.email,
       gender: currentStudent?.gender,
-      companyID: props.user.userID,
-    });
+      studentID: props.user.userID,
+      id: currentVacancy?.companyID,
+    };
+    console.log(obj);
+    props.applyJob(obj);
     props.navigation.navigate('Vacancies');
   };
 

@@ -8,7 +8,7 @@ import * as firebase from 'firebase';
 
 export const addNewCompany = (newCompany) => {
   return (dispatch) => {
-    firebase.database().ref().child('companies').push(newCompany);
+    firebase.database().ref().child('companies/companydetails').set(newCompany);
     console.log(newCompany);
     dispatch({type: NEW_COMPANY, payload: newCompany});
   };
