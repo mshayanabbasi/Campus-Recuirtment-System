@@ -10,11 +10,11 @@ import {
   PERVIOUS_DATA_OF_VACANCIES,
   REMOVE_ERROR_MESSAGES_POST_COMPANY,
 } from '../Types';
-import * as firebase from 'firebase';
+import database from '@react-native-firebase/database';
 
 export const addNewVacancy = (newVacany) => {
   return (dispatch) => {
-    firebase.database().ref().child('vacancies').push(newVacany);
+    database().ref().child('vacancies').push(newVacany);
     console.log(newVacany);
     dispatch({type: NEW_VACANCIES, payload: newVacany});
   };
@@ -22,15 +22,14 @@ export const addNewVacancy = (newVacany) => {
 
 // export const deleteVacany = (did) => {
 //   return (dispatch) => {
-//     firebase.database().ref().child(`vacancies/${did}`).remove();
+//     database().ref().child(`vacancies/${did}`).remove();
 //     dispatch({type: DELETE_VACANCY});
 //   };
 // };
 
 export const prevDataOfVacancies = () => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('vacancies')
       .on('value', (snapshot) => {
@@ -70,16 +69,8 @@ export const ApplyVacancy = (applyVacancy) => {
   return (dispatch) => {
     dispatch({type: APPLY_NOW_VACANCY_LOADING});
     try {
-      console.log(applyVacancy);
-      // firebase
-      //   .database()
-      //   .ref(`companies/`)
-      //   .on('value', (snapshot) => {
-      //     console.log(snapshot.val());
-      //   });
-      // console.log(firebase.auth().currentUser.uid);
-      firebase
-        .database()
+      // console.log(applyVacancy);
+      database()
         .ref()
         .child(`companies/${applyVacancy.companyID}/candidates`)
         .push(applyVacancy);
@@ -94,8 +85,7 @@ export const ApplyVacancy = (applyVacancy) => {
 export const ApplyVacancyData = (id) => {
   return (dispatch) => {
     dispatch({type: APPLY_VACANCY_DATA_LOADING});
-    firebase
-      .database()
+    database()
       .ref()
       .child(`companies/${id}/candidates`)
       .on('value', (snapshot) => {

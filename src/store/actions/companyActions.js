@@ -3,12 +3,11 @@ import {
   PERVIOUS_DATA_OF_COMPANIES,
   UPDATE_COMPANY,
 } from '../Types';
-import '../../config/firebaseConfig';
-import * as firebase from 'firebase';
+import database from '@react-native-firebase/database';
 
 export const addNewCompany = (newCompany) => {
   return (dispatch) => {
-    firebase.database().ref().child('companies/companydetails').set(newCompany);
+    database().ref().child('companies/companydetails').set(newCompany);
     console.log(newCompany);
     dispatch({type: NEW_COMPANY, payload: newCompany});
   };
@@ -16,15 +15,14 @@ export const addNewCompany = (newCompany) => {
 
 // export const UpdateCurrentCompany = (data, editID) => {
 //   return (dispatch) => {
-//     firebase.database().ref().child(`companies/${editID}`).update(data);
+//     database().ref().child(`companies/${editID}`).update(data);
 //     dispatch({type: UPDATE_COMPANY});
 //   };
 // };
 
 export const PrevDataOfCompanies = () => {
   return (dispatch) => {
-    firebase
-      .database()
+    database()
       .ref()
       .child('companies')
       .on('value', (snapshot) => {

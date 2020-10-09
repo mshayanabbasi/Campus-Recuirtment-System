@@ -1,10 +1,9 @@
 import {NEW_STUDENT, PERVIOUS_DATA_OF_STUDENTS} from '../Types';
-import '../../config/firebaseConfig';
-import * as firebase from 'firebase';
+import database from '@react-native-firebase/database';
 
 export const addNewStudent = (newStudent) => {
   return (dispatch) => {
-    firebase.database().ref().child('students').push(newStudent);
+    database().ref().child('students').push(newStudent);
     dispatch({type: NEW_STUDENT, payload: newStudent});
   };
 };
@@ -12,8 +11,7 @@ export const addNewStudent = (newStudent) => {
 export const prevDataOfStudents = () => {
   return (dispatch) => {
     try {
-      firebase
-        .database()
+      database()
         .ref()
         .child('students')
         .on('value', (snapshot) => {

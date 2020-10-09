@@ -4,7 +4,6 @@ import {Text, Input, Button, Card} from 'react-native-elements';
 import {Formik} from 'formik';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {connect} from 'react-redux';
-import '../../config/firebaseConfig';
 import {SIGNUP} from '../../store/actions/authActions';
 import * as Yup from 'yup';
 
