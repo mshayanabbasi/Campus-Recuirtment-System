@@ -70,7 +70,7 @@ export const ApplyVacancy = (applyVacancy) => {
     dispatch({type: APPLY_NOW_VACANCY_LOADING});
     try {
       // console.log(applyVacancy);
-      database()
+      database
         .ref()
         .child(`companies/${applyVacancy.companyID}/candidates`)
         .push(applyVacancy);

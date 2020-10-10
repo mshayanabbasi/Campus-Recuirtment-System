@@ -2,25 +2,51 @@ import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
 import store from './store';
 import AppNavigation from './Navigation/Navigation';
-import AsyncStorage from '@react-native-community/async-storage';
-import {UpdateUser} from './store/actions/authActions';
-import {Alert, BackHandler} from 'react-native';
+import {BackHandler} from 'react-native';
+import {fcmService} from './notification/FCMService';
+import {localNotificationService} from './notification/LocalNotificationService';
 
 const App = () => {
   const backAction = () => {
     BackHandler.exitApp();
-    // Alert.alert('Hold on!', 'Are you sure you want to go back?', [
-    //   {
-    //     text: 'Cancel',
-    //     onPress: () => null,
-    //     style: 'cancel',
-    //   },
-    //   {text: 'YES', onPress: () => BackHandler.exitApp()},
-    // ]);
     return true;
   };
 
   useEffect(() => {
+    fcmService.registerAppWithFCM();
+    fcmService.register(onRegister, onNotification, onOpenNotification);
+    localNotificationService.configure(onOpenNotification);
+
+    function onRegister(token) {
+      console.log('[App] onRegister', token);
+    }
+
+    function onNotification(notify) {
+      console.log('[App] onNotification', notify);
+      const options = {
+        soundName: 'default',
+        playSound: true,
+      };
+      localNotificationService.showNotification(
+        0,
+        notify.title,
+        notify.body,
+        notify,
+        options,
+      );
+    }
+
+    function onOpenNotification(notify) {
+      console.log('[App] onOpenNotification', notify);
+      alert('Open Notification', notify.body);
+    }
+
+    return () => {
+      console.log('[App] unregister');
+      fcmService.unRegister();
+      localNotificationService.unregister();
+    };
+
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>

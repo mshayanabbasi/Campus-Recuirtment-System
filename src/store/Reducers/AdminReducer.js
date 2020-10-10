@@ -70,6 +70,8 @@ const AdminReducer = (state = initState, action) => {
       return state;
     case REQUEST_OF_COMPANY_REJECT:
       return state;
+    default:
+      return state;
   }
 };
 

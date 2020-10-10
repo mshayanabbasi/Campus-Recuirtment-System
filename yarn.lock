@@ -1190,6 +1190,13 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.0.tgz#32425321af1e29e3da882fbd627a71ea142c75e4"
   integrity sha512-aS506wjynNzKDZjynlDasbc665GKGHdhrCob9KdOprPFlE+zMnoR3k0Ce0OkIuGHcY/GMVvQqTc+LYVm2UOmbg==
 
+"@react-native-community/push-notification-ios@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.5.0.tgz#b41802b58d2388c8cb76cd219bbeec9ac9a4c06d"
+  integrity sha512-88Uwu6S8oRVnuMfBMGN+MtTyUjiVmMKwfObYrPmm+b2E2Aqk0WlZ4clfECukG8QIzv1pfELJZ5uZMVTYMI6klg==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-firebase/app@^8.4.5":
   version "8.4.5"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-8.4.5.tgz#a5194c34a1f75af8641153163700305ae578d31d"
@@ -1207,6 +1214,11 @@
   version "7.5.11"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-7.5.11.tgz#b0af66769148a2bca2ed0093e2a8f698461e33bf"
   integrity sha512-gatv4q5dAp2m0YYaD6YkGvR6s1diEf0pFwXUUFsZMikpwgfX1HRFH/SdSUiCH18FC/5s68L0oInj/LQI47ZfcA==
+
+"@react-native-firebase/messaging@^7.9.0":
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-7.9.0.tgz#d7b8bc5a7391c2363e16607610f301118c6049b9"
+  integrity sha512-DEcI3jl3VQz4/Lg/qtM9yeVP/PO4PlOq1qtf9aasQb4pZw5pG0LE6i+Laqcoo+i3GKnBSi1htE39IKzQGeaXFQ==
 
 "@react-navigation/bottom-tabs@^5.9.1":
   version "5.9.2"
@@ -5948,6 +5960,11 @@ react-native-paper@^4.2.0:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
+
+react-native-push-notification@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-6.1.1.tgz#58bc2e3619e79a2bc93078cb0b761ff8d7bbb2e9"
+  integrity sha512-PiBmogOloztUqpSlNsB8i27wZ84CXXhC4GGvrG7Eev7OP9iA3PoQ3+AWtW3dBfWzXlRJzFg39x1jlhvvMWNN0Q==
 
 react-native-ratings@^7.2.0:
   version "7.3.0"

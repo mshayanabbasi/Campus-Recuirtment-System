@@ -31,23 +31,24 @@ export const LOGIN = ({email, password}, navigation) => {
           console.log('Successfully Sign In admin');
         } else {
           const userId = auth().currentUser.uid;
-          const database = database().ref();
-          const speedRef = database.child('user/' + userId);
-          speedRef.on('value', (snapshot) => {
-            const {email, name, type} = snapshot.val();
-            const object = {
-              name,
-              email,
-              type,
-            };
-            AsyncStorage.setItem('user', JSON.stringify(object));
-            if (type === 'student') {
-              navigation.navigate('Companies', {screen: 'Company'});
-            }
-            if (type === 'company') {
-              navigation.navigate('Students', {screen: 'Student'});
-            }
-          });
+          database()
+            .ref()
+            .child('user/' + userId)
+            .on('value', (snapshot) => {
+              const {email, name, type} = snapshot.val();
+              const object = {
+                name,
+                email,
+                type,
+              };
+              AsyncStorage.setItem('user', JSON.stringify(object));
+              if (type === 'student') {
+                navigation.navigate('Companies', {screen: 'Company'});
+              }
+              if (type === 'company') {
+                navigation.navigate('Students', {screen: 'Student'});
+              }
+            });
         }
         dispatch({type: LOGIN_SUCCESS, payload: obj});
       })

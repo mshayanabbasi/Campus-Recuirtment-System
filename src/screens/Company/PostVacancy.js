@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Card, Input, Button, Text} from 'react-native-elements';
 import {Formik} from 'formik';
 import {connect} from 'react-redux';
