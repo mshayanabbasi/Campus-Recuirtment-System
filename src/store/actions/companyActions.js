@@ -7,7 +7,7 @@ import database from '@react-native-firebase/database';
 
 export const addNewCompany = (newCompany) => {
   return (dispatch) => {
-    database().ref().child('companies/companydetails').set(newCompany);
+    database().ref().child('companies').set(newCompany);
     console.log(newCompany);
     dispatch({type: NEW_COMPANY, payload: newCompany});
   };

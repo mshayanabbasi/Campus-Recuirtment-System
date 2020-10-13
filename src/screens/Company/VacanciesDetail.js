@@ -147,8 +147,8 @@ const VacancieDetails = (props) => {
       <Button
         title="Apply Now"
         onPress={() => {
-          onAdd();
           sendPushNotification();
+          onAdd();
         }}
       />
     </Card>

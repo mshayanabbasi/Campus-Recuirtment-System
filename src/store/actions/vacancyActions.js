@@ -15,7 +15,7 @@ import database from '@react-native-firebase/database';
 export const addNewVacancy = (newVacany) => {
   return (dispatch) => {
     database().ref().child('vacancies').push(newVacany);
-    console.log(newVacany);
+    // console.log(newVacany);
     dispatch({type: NEW_VACANCIES, payload: newVacany});
   };
 };
@@ -72,7 +72,7 @@ export const ApplyVacancy = (applyVacancy) => {
       // console.log(applyVacancy);
       database()
         .ref()
-        .child(`companies/${applyVacancy.companyID}/candidates`)
+        .child(`companies/${applyVacancy.companyID}/candidates/`)
         .push(applyVacancy);
       // console.log(id, 'id');
       dispatch({type: APPLY_NOW_VACANCY_SUCCESS, payload: applyVacancy});

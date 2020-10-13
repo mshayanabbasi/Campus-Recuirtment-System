@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {connect} from 'react-redux';
@@ -14,13 +14,6 @@ function CompanyDrawerContent(props) {
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{flexDirection: 'row', marginTop: 15}}>
-              <View style={{marginLeft: 15, flexDirection: 'column'}}>
-                <Title style={styles.title}>Shayan</Title>
-              </View>
-            </View>
-          </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               label="Student"
