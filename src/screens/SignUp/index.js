@@ -76,6 +76,7 @@ const SignUp = (props) => {
             <Text style={{color: 'red', paddingBottom: 5}}>{errors.name}</Text>
           ) : null}
           <Input
+            autoCapitalize="none"
             onChangeText={handleChange('email')}
             value={values.email}
             placeholder="Email"

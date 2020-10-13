@@ -34,7 +34,6 @@ const StudentProfile = (props) => {
         Gender {currentStudent?.gender}
       </Text>
       <Card.Divider />
-      <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         Skills {currentStudent?.skills}
       </Text>

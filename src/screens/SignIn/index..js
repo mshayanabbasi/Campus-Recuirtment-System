@@ -51,6 +51,7 @@ const SignIn = (props) => {
             Sign In
           </Text>
           <Input
+            autoCapitalize="none"
             onChangeText={handleChange('email')}
             value={values.email}
             placeholder="Email"
