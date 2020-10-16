@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "722822236728",
-    "firebase_url": "https://campus-recuierment-system.firebaseio.com",
-    "project_id": "campus-recuierment-system",
-    "storage_bucket": "campus-recuierment-system.appspot.com"
+    "project_number": "820972045854",
+    "firebase_url": "https://campus-recuirement-syste-e6da4.firebaseio.com",
+    "project_id": "campus-recuirement-syste-e6da4",
+    "storage_bucket": "campus-recuirement-syste-e6da4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:722822236728:android:0e032f1b809bba5f1ef4cd",
+        "mobilesdk_app_id": "1:820972045854:android:90e8cc0e5e27cb48d5500f",
         "android_client_info": {
           "package_name": "com.campus_recuirtment_system"
         }
       },
       "oauth_client": [
         {
-          "client_id": "722822236728-0e9kp8mo390p8jb86avjog7pifsg6lr2.apps.googleusercontent.com",
+          "client_id": "820972045854-d8prgave6fsprjheuhslbi4kf3rn6hn5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCwQZRGkVPBthZjkcCc2vyF5X9xbICMN80"
+          "current_key": "AIzaSyBsR4hpBi_CGL6rHIV9G3VX8NAE7e3TYpQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "722822236728-0e9kp8mo390p8jb86avjog7pifsg6lr2.apps.googleusercontent.com",
+              "client_id": "820972045854-d8prgave6fsprjheuhslbi4kf3rn6hn5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
