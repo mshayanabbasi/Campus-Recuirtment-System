@@ -9,7 +9,7 @@ const StudentDetails = (props) => {
   console.log('Current Student', currentStudent);
   return (
     <Card>
-      <Card.Title style={{fontSize: 20}}>Student's profile</Card.Title>
+      <Card.Title style={{fontSize: 20}}>Student's Detail</Card.Title>
       <Card.Divider />
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         First Name {currentStudent?.firstName}

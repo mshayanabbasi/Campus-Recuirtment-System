@@ -1,34 +1,17 @@
-import React from 'react';
-import {View, FlatList, Animated} from 'react-native';
-import {Card, ListItem, Text} from 'react-native-elements';
-import { RectButton } from 'react-native-gesture-handler';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import React, {useEffect} from 'react';
+import {View, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {Card, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {allDataOfCompanies} from '../../../store/actions/companyActions';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AllCompanies = (props) => {
-  console.log(props);
-  // const details = (id) => {
-  //   // props.navigation.navigate();
-  // };
-  renderRightActions = (progress, dragX) => {
-    const trans = dragX.interpolate({
-      inputRange: [0, 50, 100, 101],
-      outputRange: [-20, 0, 0, 1],
-    });
-    return (
-      <RectButton onPress={this.close}>
-        <Animated.Text
-          style={[
-            styles.actionText,
-            {
-              transform: [{ translateX: trans }],
-            },
-          ]}>
-          Delete
-        </Animated.Text>
-      </RectButton>
-    );
-  };
+  console.log('All Companies', props);
+
+  useEffect(() => {
+    props.allCompaniesData();
+  }, []);
+
   return (
     <>
       {props.allCompanies.length > 0 ? (
@@ -37,24 +20,49 @@ const AllCompanies = (props) => {
           keyExtractor={(item) => item.companyID}
           renderItem={({item}) => {
             return (
-              <Swipeable renderRightActions={}>
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>{item.cname}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              </Swipeable>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('Company Details', {
+                    id: item.companyID,
+                  });
+                }}>
+                <Card
+                  wrapperStyle={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text>{item.cname}</Text>
+                  <Ionicons name="information-circle-outline" size={25} />
+                </Card>
+              </TouchableOpacity>
             );
           }}
         />
       ) : (
-        <View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>Sorry, No Company Available</Text>
         </View>
       )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  rightAction: {
+    flex: 1,
+    backgroundColor: 'cyan',
+    justifyContent: 'center',
+  },
+  actionText: {
+    color: 'black',
+    fontSize: 16,
+  },
+  rectButton: {
+    width: '100%',
+    height: 80,
+    backgroundColor: 'blue',
+  },
+});
 
 const mapStateToProps = (state) => {
   return {
@@ -63,4 +71,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AllCompanies);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    allCompaniesData: () => dispatch(allDataOfCompanies()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllCompanies);

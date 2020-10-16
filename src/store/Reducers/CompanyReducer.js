@@ -1,20 +1,18 @@
-import {NEW_COMPANY, PERVIOUS_DATA_OF_COMPANIES} from '../Types';
+import {GET_ALL_COMPANIES_SUCCESS, NEW_COMPANY_SUCCESS} from '../Types';
 
 const initState = {
   allCompanies: [],
-  prevDataOfCompanies: false,
   company: null,
 };
 
 const CompanyReducer = (state = initState, action) => {
   switch (action.type) {
-    case PERVIOUS_DATA_OF_COMPANIES:
+    case GET_ALL_COMPANIES_SUCCESS:
       return {
         ...state,
-        prevDataOfCompanies: true,
         allCompanies: action.payload,
       };
-    case NEW_COMPANY:
+    case NEW_COMPANY_SUCCESS:
       return {
         ...state,
         company: action.payload,

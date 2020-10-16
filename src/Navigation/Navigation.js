@@ -11,10 +11,8 @@ import SignUp from '../screens/SignUp';
 import {connect} from 'react-redux';
 import StudentRegistration from '../screens/Student/StudentRegistration';
 import Companies from '../screens/Company/Companies';
-import {currentUser, SIGNOUT, UpdateUser} from '../store/actions/authActions';
+import {SIGNOUT, currentUser} from '../store/actions/authActions';
 import Students from '../screens/Student/Students';
-import {Button} from 'react-native-elements';
-import AsyncStorage from '@react-native-community/async-storage';
 import CompanyDrawerContent from './CompanyDrawerContent';
 import PostVacancy from '../screens/Company/PostVacancy';
 import StudentProfile from '../screens/Student/StudentProfile';
@@ -27,13 +25,17 @@ import PostedVacancy from '../screens/Company/PostedVacancy';
 import CompanyDetails from '../screens/Company/CompanyDetails';
 import StudentDetails from '../screens/Student/StudentDetails';
 import VacanciesDetail from '../screens/Company/VacanciesDetail';
+import AdminDrawerContent from './AdminDrawerContent';
+import AllStudents from '../screens/Admin/Students';
+import AllCompanies from '../screens/Admin/Company';
+import AdminCompanyDetails from '../screens/Admin/Company/CompanyDetail';
+import AdminStudentDetails from '../screens/Admin/Students/StudentDetail';
 
 const AppNavigation = (props) => {
+  const Drawer = createDrawerNavigator();
   React.useEffect(() => {
     props.currentUser();
   }, []);
-
-  const Drawer = createDrawerNavigator();
   const CompanyDrawer = () => {
     return (
       <Drawer.Navigator
@@ -55,6 +57,16 @@ const AppNavigation = (props) => {
     );
   };
 
+  const AdminDrawer = () => {
+    return (
+      <Drawer.Navigator
+        drawerContent={(props) => <AdminDrawerContent {...props} />}>
+        <Drawer.Screen name="Students" component={AllStudents} />
+        <Drawer.Screen name="Companies" component={AllCompanies} />
+      </Drawer.Navigator>
+    );
+  };
+
   const Stack = createStackNavigator();
   function Auth() {
     return (
@@ -65,6 +77,34 @@ const AppNavigation = (props) => {
         <Stack.Screen name="Sign Up">
           {(props) => <SignUp {...props} />}
         </Stack.Screen>
+      </Stack.Navigator>
+    );
+  }
+  function Admin() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Students"
+          component={AdminDrawer}
+          options={({route, navigation}) => ({
+            headerTitle: getFocusedRouteNameFromRoute(route),
+            headerLeft: () => {
+              return (
+                <Ionicons
+                  name="menu"
+                  size={30}
+                  style={{padding: 5}}
+                  onPress={() =>
+                    navigation.dispatch(DrawerActions.toggleDrawer())
+                  }
+                />
+              );
+            },
+            headerTitleAlign: 'center',
+          })}
+        />
+        <Stack.Screen name="Company Details" component={AdminCompanyDetails} />
+        <Stack.Screen name="Student Details" component={AdminStudentDetails} />
       </Stack.Navigator>
     );
   }
@@ -146,6 +186,11 @@ const AppNavigation = (props) => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="Admin"
+          component={Admin}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Companies"
           component={Company}
           options={{headerShown: false}}
@@ -185,9 +230,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    currentUser: () => dispatch(currentUser()),
-    updateUser: (d) => dispatch(UpdateUser(d)),
     signOut: (a) => dispatch(SIGNOUT(a)),
+    currentUser: () => dispatch(currentUser()),
   };
 };
 

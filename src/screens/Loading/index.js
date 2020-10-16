@@ -2,7 +2,6 @@ import React from 'react';
 import {View, ActivityIndicator, BackHandler} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
-import {UpdateUser} from '../../store/actions/authActions';
 
 const Loading = (props) => {
   React.useEffect(() => {
@@ -16,6 +15,9 @@ const Loading = (props) => {
           }
           if (response.type === 'company') {
             props.navigation.navigate('Students', {screen: 'Student'});
+          }
+          if (response.type === 'admin') {
+            props.navigation.navigate('Root', {screen: 'Admin'});
           }
         } else {
           props.navigation.navigate('Auth');
@@ -38,10 +40,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateUser: (d) => dispatch(UpdateUser(d)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Loading);
+export default connect(mapStateToProps)(Loading);

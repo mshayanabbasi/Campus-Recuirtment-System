@@ -1,17 +1,13 @@
 import {
   APPLY_NOW_VACANCY_SUCCESS,
   APPLY_VACANCY_DATA_SUCCESS,
-  DELETE_VACANCY,
-  ERROR_POST_COMPANY,
+  GET_ALL_VACANCIES_SUCCESS,
   NEW_VACANCIES,
-  PERVIOUS_DATA_OF_VACANCIES,
-  REMOVE_ERROR_MESSAGES_POST_COMPANY,
+  NEW_VACANCIES_SUCCESS,
 } from '../Types';
 
 const initialState = {
   allVacancies: [],
-  errorFlag: false,
-  errorMessage: '',
   vacancy: null,
   applyJob: null,
   candidates: [],
@@ -20,29 +16,15 @@ const initialState = {
 const VacanyReducer = (state = initialState, action) => {
   console.log('Vacancy Reducer', action);
   switch (action.type) {
-    case PERVIOUS_DATA_OF_VACANCIES:
+    case GET_ALL_VACANCIES_SUCCESS:
       return {
         ...state,
         allVacancies: action.payload,
       };
-    case NEW_VACANCIES:
+    case NEW_VACANCIES_SUCCESS:
       return {
         ...state,
         vacancy: action.payload,
-      };
-    case DELETE_VACANCY:
-      return state;
-    case REMOVE_ERROR_MESSAGES_POST_COMPANY:
-      return {
-        ...state,
-        errorFlag: false,
-        errorMessage: '',
-      };
-    case ERROR_POST_COMPANY:
-      return {
-        ...state,
-        errorFlag: true,
-        errorMessage: action.errorMessagePC,
       };
     case APPLY_NOW_VACANCY_SUCCESS:
       return {

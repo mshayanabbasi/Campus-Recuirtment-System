@@ -2,15 +2,13 @@ import React, {useEffect} from 'react';
 import {Card, ListItem} from 'react-native-elements';
 import {View, FlatList, Text} from 'react-native';
 import {connect} from 'react-redux';
-import {prevDataOfStudents} from '../../store/actions/studentActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ApplyVacancyData} from '../../store/actions/vacancyActions';
-import {PrevDataOfCompanies} from '../../store/actions/companyActions';
+import {allDataOfCompanies} from '../../store/actions/companyActions';
 
 const Student = (props) => {
   console.log('Students Screen', props);
-  // console.log('user', props.user.userID);
   console.log('data', props.allCompanies);
   const currentCompanyID = props.allCompanies.find((v) => {
     if (props.user) {
@@ -20,11 +18,9 @@ const Student = (props) => {
 
   console.log('curreCompanyID', currentCompanyID);
   useEffect(() => {
-    props.allcandidates(currentCompanyID?.companyID);
-    props.allCompaniesData();
-    // props.allStudentsData();
+    props.ApplyVacancyData(currentCompanyID?.companyID);
+    props.allDataOfCompanies();
   }, []);
-  console.log('candidates', props.candidates);
   return (
     <>
       {props.candidates.length > 0 ? (
@@ -58,7 +54,7 @@ const Student = (props) => {
           }}
         />
       ) : (
-        <View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>Sorry, No Student Available</Text>
         </View>
       )}
@@ -67,22 +63,13 @@ const Student = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // const unBlockedStudents = state.student.allStudents.filter((v) => !v.block);
-
   return {
-    allStudents: state.student.allStudents,
     user: state.auth.user,
     allCompanies: state.company.allCompanies,
     candidates: state.vacancy.candidates,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    allStudentsData: () => dispatch(prevDataOfStudents()),
-    allcandidates: (a) => dispatch(ApplyVacancyData(a)),
-    allCompaniesData: () => dispatch(PrevDataOfCompanies()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Student);
+export default connect(mapStateToProps, {allDataOfCompanies, ApplyVacancyData})(
+  Student,
+);

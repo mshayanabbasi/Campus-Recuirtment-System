@@ -2,9 +2,8 @@ import React, {useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {PrevDataOfCompanies} from '../../store/actions/companyActions';
+import {allDataOfCompanies} from '../../store/actions/companyActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {} from 'react-native-gesture-handler';
 
 const Companies = (props) => {
   console.log('Companies', props);
@@ -41,7 +40,7 @@ const Companies = (props) => {
           }}
         />
       ) : (
-        <View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>Sorry, No Company Available</Text>
         </View>
       )}
@@ -58,7 +57,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    allCompaniesData: () => dispatch(PrevDataOfCompanies()),
+    allCompaniesData: () => dispatch(allDataOfCompanies()),
   };
 };
 

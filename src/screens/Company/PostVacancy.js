@@ -2,13 +2,9 @@ import React, {useEffect} from 'react';
 import {Card, Input, Button, Text} from 'react-native-elements';
 import {Formik} from 'formik';
 import {connect} from 'react-redux';
-import {
-  addNewVacancy,
-  ErrorPC,
-  RemoveErrorMessagesPC,
-} from '../../store/actions/vacancyActions';
+import {addNewVacancy} from '../../store/actions/vacancyActions';
 import {ScrollView} from 'react-native';
-import {PrevDataOfCompanies} from '../../store/actions/companyActions';
+import {allDataOfCompanies} from '../../store/actions/companyActions';
 
 const PostVacany = (props) => {
   useEffect(() => {
@@ -89,9 +85,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     newVacancy: (obj) => dispatch(addNewVacancy(obj)),
-    removeError: () => dispatch(RemoveErrorMessagesPC()),
-    error: () => dispatch(ErrorPC()),
-    allCompanyData: () => dispatch(PrevDataOfCompanies()),
+    allCompanyData: () => dispatch(allDataOfCompanies()),
   };
 };
 

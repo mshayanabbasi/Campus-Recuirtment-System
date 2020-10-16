@@ -1,4 +1,4 @@
-import {NEW_STUDENT, PERVIOUS_DATA_OF_STUDENTS} from '../Types';
+import {GET_ALL_STUDENTS_SUCCESS, NEW_STUDENT_SUCCESS} from '../Types';
 const initState = {
   allStudents: [],
   student: null,
@@ -6,12 +6,12 @@ const initState = {
 
 const StudentReducer = (state = initState, action) => {
   switch (action.type) {
-    case PERVIOUS_DATA_OF_STUDENTS:
+    case GET_ALL_STUDENTS_SUCCESS:
       return {
         ...state,
         allStudents: action.payload,
       };
-    case NEW_STUDENT:
+    case NEW_STUDENT_SUCCESS:
       return {
         ...state,
         student: action.payload,

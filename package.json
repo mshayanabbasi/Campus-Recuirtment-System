@@ -26,6 +26,7 @@
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
     "formik": "^2.1.5",
+    "moment": "^2.29.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-dropdown-picker": "^3.6.8",

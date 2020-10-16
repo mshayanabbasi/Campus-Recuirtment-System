@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
-import {Button, Text, View} from 'react-native';
+import {Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {prevDataOfStudents} from '../../store/actions/studentActions';
+import {allDataOfStudents} from '../../store/actions/studentActions';
 
 const StudentProfile = (props) => {
   console.log('student profile', props);
   useEffect(() => {
-    console.log('useEffect');
-    props.allStudentData();
+    props.allDataOfStudents();
   }, []);
   const currentStudent = props.allStudents.find(
     (v) => v.userId === props.user.userID,
@@ -49,7 +48,6 @@ const StudentProfile = (props) => {
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         Phone Number {currentStudent?.phoneNumber}
       </Text>
-      <Button title="Edit" />
     </Card>
   );
 };
@@ -61,10 +59,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    allStudentData: () => dispatch(prevDataOfStudents()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StudentProfile);
+export default connect(mapStateToProps, {allDataOfStudents})(StudentProfile);

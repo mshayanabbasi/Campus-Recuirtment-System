@@ -7,7 +7,6 @@ import {addNewCompany} from '../../store/actions/companyActions';
 
 const CompanyRegistration = (props) => {
   console.log('Company Registration', props);
-  console.log('userId', props.user.userID);
   const onAdd = ({cname, es, hrname, cnum}) => {
     props.newCompany({
       userId: props.user.userID,
@@ -20,7 +19,6 @@ const CompanyRegistration = (props) => {
     });
     props.navigation.navigate('Students', {screen: 'Student'});
   };
-  // console.log('form', props.currentUser);
   return (
     <ScrollView>
       <Formik
@@ -74,7 +72,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     newCompany: (obj) => dispatch(addNewCompany(obj)),
-    // UpdateRequest: (sdata) => dispatch(UpdationRequest(sdata)),
   };
 };
 

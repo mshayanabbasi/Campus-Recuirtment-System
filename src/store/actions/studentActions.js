@@ -1,16 +1,29 @@
-import {NEW_STUDENT, PERVIOUS_DATA_OF_STUDENTS} from '../Types';
+import {
+  GET_ALL_STUDENTS_FAILED,
+  GET_ALL_STUDENTS_LOADING,
+  GET_ALL_STUDENTS_SUCCESS,
+  NEW_STUDENT_FAILED,
+  NEW_STUDENT_LOADING,
+  NEW_STUDENT_SUCCESS,
+} from '../Types';
 import database from '@react-native-firebase/database';
 
 export const addNewStudent = (newStudent) => {
   return (dispatch) => {
-    database().ref().child('students').push(newStudent);
-    dispatch({type: NEW_STUDENT, payload: newStudent});
+    try {
+      dispatch({type: NEW_STUDENT_LOADING});
+      database().ref().child('students').push(newStudent);
+      dispatch({type: NEW_STUDENT_SUCCESS, payload: newStudent});
+    } catch (error) {
+      dispatch({type: NEW_STUDENT_FAILED});
+    }
   };
 };
 
-export const prevDataOfStudents = () => {
+export const allDataOfStudents = () => {
   return (dispatch) => {
     try {
+      dispatch({type: GET_ALL_STUDENTS_LOADING});
       database()
         .ref()
         .child('students')
@@ -32,10 +45,10 @@ export const prevDataOfStudents = () => {
               skills: data[key].skills,
             });
           }
-          dispatch({type: PERVIOUS_DATA_OF_STUDENTS, payload: TemArr});
+          dispatch({type: GET_ALL_STUDENTS_SUCCESS, payload: TemArr});
         });
     } catch (error) {
-      console.log(error);
+      dispatch({type: GET_ALL_STUDENTS_FAILED});
     }
   };
 };

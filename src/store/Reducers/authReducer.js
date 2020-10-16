@@ -3,8 +3,6 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   LOGIN_FAILED,
-  LOGIN_VALIDATION_PASSWORD,
-  LOGIN_VALIDATION_EMAIL,
   CURRENT_USER_SUCCESS,
 } from '../Types';
 
@@ -51,24 +49,7 @@ const authReducer = (state = initState, action) => {
       } else {
         return state;
       }
-    case LOGIN_VALIDATION_EMAIL:
-      return {
-        ...state,
-        errorMessage: 'Please enter your email address',
-        logInEmail: true,
-      };
-    case LOGIN_VALIDATION_PASSWORD:
-      return {
-        ...state,
-        errorMessage: 'Please enter your password',
-        logInPass: true,
-      };
     case CURRENT_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case 'UPDATE_USER':
       return {
         ...state,
         user: action.payload,

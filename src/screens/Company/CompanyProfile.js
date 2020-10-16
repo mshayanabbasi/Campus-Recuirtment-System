@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Button, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {PrevDataOfCompanies} from '../../store/actions/companyActions';
+import {allDataOfCompanies} from '../../store/actions/companyActions';
 
 const CompanyProfile = (props) => {
   console.log('Company Profile', props);
@@ -36,24 +36,20 @@ const CompanyProfile = (props) => {
       <Text style={{textAlign: 'center', fontSize: 16, paddingBottom: 10}}>
         Contact Number {currentCompany?.cnum}
       </Text>
-      <Card.Divider />
-      <Button title="Edit" />
     </Card>
   );
 };
 
 const mapStateToProps = (state) => {
-  // const userId = state.auth.currentUser ? state.auth.currentUser.uid : null;
   return {
     user: state.auth.user,
     allCompanies: state.company.allCompanies,
-    // isDisabled: checkC,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    allCompanyData: () => dispatch(PrevDataOfCompanies()),
+    allCompanyData: () => dispatch(allDataOfCompanies()),
   };
 };
 

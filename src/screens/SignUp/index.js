@@ -130,13 +130,11 @@ const SignUp = (props) => {
             <Button onPress={handleSubmit} title="Sign Up" />
           )}
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Text style={{fontSize: 18}}>
-              Already have an Account?
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('Sign In')}>
-                <Text style={{fontSize: 18}}>Sign In</Text>
-              </TouchableOpacity>
-            </Text>
+            <Text style={{fontSize: 18}}>Already have an Account?</Text>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Sign In')}>
+              <Text style={{paddingLeft: 5, fontSize: 18}}>Sign In</Text>
+            </TouchableOpacity>
           </View>
         </Card>
       )}

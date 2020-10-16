@@ -180,14 +180,12 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     allStudents: state.student.allStudents,
-    // type: state.auth.type,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     newStudent: (obj) => dispatch(addNewStudent(obj)),
-    // UpdateRequest: (sdata) => dispatch(UpdationRequest(sdata)),
   };
 };
 

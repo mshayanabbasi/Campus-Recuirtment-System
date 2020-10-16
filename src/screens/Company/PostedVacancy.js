@@ -3,10 +3,7 @@ import {View, FlatList} from 'react-native';
 import {Card, Text, Button} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
-import {
-  deleteVacany,
-  prevDataOfVacancies,
-} from '../../store/actions/vacancyActions';
+import {allDataOfVacancies} from '../../store/actions/vacancyActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PostedVacancy = (props) => {
@@ -19,9 +16,8 @@ const PostedVacancy = (props) => {
       {props.allVacancies.length > 0 ? (
         <FlatList
           data={props.allVacancies}
-          keyExtractor={(item) => item.userId}
+          keyExtractor={(item) => item.postId}
           renderItem={({item}) => {
-            console.log(item);
             return (
               <TouchableOpacity
                 onPress={() =>
@@ -44,7 +40,7 @@ const PostedVacancy = (props) => {
           }}
         />
       ) : (
-        <View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>You didn't post any vacancy yet!</Text>
         </View>
       )}
@@ -61,8 +57,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    allVacanicesData: () => dispatch(prevDataOfVacancies()),
-    deleteVacancy: (did) => dispatch(deleteVacany(did)),
+    allVacanicesData: () => dispatch(allDataOfVacancies()),
   };
 };
 

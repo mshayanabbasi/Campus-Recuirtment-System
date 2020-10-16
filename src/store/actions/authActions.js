@@ -11,6 +11,7 @@ import {
   USER_IS_BLOCKED,
   CURRENT_USER_SUCCESS,
   CURRENT_USER_FAILED,
+  CURRENT_USER_LOADING,
 } from '../Types';
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '@react-native-firebase/database';
@@ -27,29 +28,30 @@ export const LOGIN = ({email, password}, navigation) => {
       .signInWithEmailAndPassword(email, password)
       .then((data) => {
         console.log('data', data);
-        if (email === 'admin@gmail.com' && password === 'admin12345') {
-          console.log('Successfully Sign In admin');
-        } else {
-          const userId = auth().currentUser.uid;
-          database()
-            .ref()
-            .child('user/' + userId)
-            .on('value', (snapshot) => {
-              const {email, name, type} = snapshot.val();
-              const object = {
-                name,
-                email,
-                type,
-              };
-              AsyncStorage.setItem('user', JSON.stringify(object));
-              if (type === 'student') {
-                navigation.navigate('Companies', {screen: 'Company'});
-              }
-              if (type === 'company') {
-                navigation.navigate('Students', {screen: 'Student'});
-              }
-            });
-        }
+
+        const userId = auth().currentUser.uid;
+        database()
+          .ref()
+          .child('user/' + userId)
+          .on('value', (snapshot) => {
+            const {email, name, type} = snapshot.val();
+            const object = {
+              name,
+              email,
+              type,
+            };
+            AsyncStorage.setItem('user', JSON.stringify(object));
+            if (type === 'student') {
+              navigation.navigate('Companies', {screen: 'Company'});
+            }
+            if (type === 'company') {
+              navigation.navigate('Students', {screen: 'Student'});
+            }
+            if (type === 'admin') {
+              navigation.navigate('Root', {screen: 'Admin'});
+            }
+          });
+
         dispatch({type: LOGIN_SUCCESS, payload: obj});
       })
       .catch((error) => {
@@ -69,7 +71,7 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
 
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((data) => {
+      .then(() => {
         var userID = auth().currentUser.uid;
         var ref = database().ref();
         ref.child('user' + '/' + auth().currentUser.uid).set({
@@ -85,6 +87,8 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
           navigation.navigate('Companies', {
             screen: 'Company Registration',
           });
+        } else if (type === 'admin') {
+          navigation.navigate('Root', {screen: 'Admin'});
         }
 
         dispatch({type: SIGNUP_SUCCESS, payload: obj});
@@ -97,24 +101,29 @@ export const SIGNUP = ({name, email, password, type}, navigation) => {
 
 export const currentUser = () => {
   return (dispatch) => {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        database()
-          .ref()
-          .child(`user/${user.uid}`)
-          .on('value', (snapshot) => {
-            const data = snapshot.val();
-            console.log(data);
-            if (data === null) {
-              dispatch({type: USER_IS_BLOCKED, payload: user});
-            } else {
-              dispatch({type: CURRENT_USER_SUCCESS, payload: data});
-            }
-          });
-      } else {
-        dispatch({type: CURRENT_USER_FAILED});
-      }
-    });
+    try {
+      dispatch({type: CURRENT_USER_LOADING});
+      auth().onAuthStateChanged((user) => {
+        if (user) {
+          database()
+            .ref()
+            .child(`user/${user.uid}`)
+            .on('value', (snapshot) => {
+              const data = snapshot.val();
+              console.log(data);
+              if (data === null) {
+                dispatch({type: USER_IS_BLOCKED, payload: user});
+              } else {
+                dispatch({type: CURRENT_USER_SUCCESS, payload: data});
+              }
+            });
+        } else {
+          dispatch({type: CURRENT_USER_FAILED});
+        }
+      });
+    } catch (error) {
+      dispatch({type: CURRENT_USER_FAILED});
+    }
   };
 };
 
@@ -136,8 +145,3 @@ export const SIGNOUT = (navigation) => {
   };
 };
 
-export const UpdateUser = (data) => {
-  return (dispatch) => {
-    dispatch({type: 'UPDATE_USER', payload: data});
-  };
-};

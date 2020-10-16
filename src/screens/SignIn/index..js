@@ -1,14 +1,10 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Input, Card, Text, Button} from 'react-native-elements';
 import {Formik} from 'formik';
 import {connect} from 'react-redux';
 import {LOGIN} from '../../store/actions/authActions';
 import {ActivityIndicator} from 'react-native';
-import {
-  LOGIN_VALIDATION_EMAIL,
-  LOGIN_VALIDATION_PASSWORD,
-} from '../../store/Types';
 import * as Yup from 'yup';
 
 const SignIn = (props) => {
@@ -79,14 +75,18 @@ const SignIn = (props) => {
           ) : (
             <Button onPress={handleSubmit} title="Sign In" />
           )}
-
-          <Text>
-            Do You Have an Account?
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text>Do You Have an Account?</Text>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Sign Up')}>
-              <Text>Sign Up</Text>
+              <Text style={{paddingLeft: 5}}>Sign Up</Text>
             </TouchableOpacity>
-          </Text>
+          </View>
         </Card>
       )}
     </Formik>
@@ -103,8 +103,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (a, b) => dispatch(LOGIN(a, b)),
-    LoginVE: () => dispatch({type: LOGIN_VALIDATION_EMAIL}),
-    LoginVP: () => dispatch({type: LOGIN_VALIDATION_PASSWORD}),
   };
 };
 

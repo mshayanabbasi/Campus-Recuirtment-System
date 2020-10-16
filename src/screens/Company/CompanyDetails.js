@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {BlockC, UnBlockC} from '../../store/actions/adminActions';
 
 const CompanyDetails = (props) => {
   console.log('Company Details', props);

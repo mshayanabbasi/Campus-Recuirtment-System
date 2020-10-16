@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   student: StudentReducer,
   company: CompanyReducer,
   vacancy: VacanyReducer,
-  // admin: AdminReducer,
+  admin: AdminReducer,
 });
 
 export default rootReducer;
