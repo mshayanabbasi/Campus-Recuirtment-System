@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "820972045854",
+    "firebase_url": "https://campus-recuirement-syste-e6da4.firebaseio.com",
+    "project_id": "campus-recuirement-syste-e6da4",
+    "storage_bucket": "campus-recuirement-syste-e6da4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820972045854:android:90e8cc0e5e27cb48d5500f",
+        "android_client_info": {
+          "package_name": "com.campus_recuirtment_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820972045854-d8prgave6fsprjheuhslbi4kf3rn6hn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsR4hpBi_CGL6rHIV9G3VX8NAE7e3TYpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820972045854-d8prgave6fsprjheuhslbi4kf3rn6hn5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
