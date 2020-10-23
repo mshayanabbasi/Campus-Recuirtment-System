@@ -27,6 +27,7 @@ const SignIn = (props) => {
     };
     props.signIn(obj, navigation);
     setLoading(true);
+    Alert.alert('Successfully Login');
   };
   return (
     <Formik

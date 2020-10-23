@@ -9,8 +9,9 @@ import {
 const initialState = {
   allVacancies: [],
   vacancy: null,
-  applyJob: null,
+  applyJob: [],
   candidates: [],
+  visited: false,
 };
 
 const VacanyReducer = (state = initialState, action) => {
@@ -29,6 +30,7 @@ const VacanyReducer = (state = initialState, action) => {
     case APPLY_NOW_VACANCY_SUCCESS:
       return {
         ...state,
+        visited: true,  
         applyJob: action.payload,
       };
     case APPLY_VACANCY_DATA_SUCCESS:

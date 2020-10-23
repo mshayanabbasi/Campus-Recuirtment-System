@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import {TouchableOpacity, View, ActivityIndicator, Alert} from 'react-native';
 import {Text, Input, Button, Card} from 'react-native-elements';
 import {Formik} from 'formik';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -34,6 +34,7 @@ const SignUp = (props) => {
     };
     props.signUp(obj, navigation);
     setLoading(true);
+    Alert.alert('Successfully SignUp');
   };
 
   console.log('user', props.user);
@@ -97,7 +98,6 @@ const SignUp = (props) => {
           ) : null}
           <DropDownPicker
             items={[
-              {label: 'Admin', value: 'admin'},
               {label: 'Student', value: 'student'},
               {
                 label: 'Company',

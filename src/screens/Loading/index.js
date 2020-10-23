@@ -16,9 +16,6 @@ const Loading = (props) => {
           if (response.type === 'company') {
             props.navigation.navigate('Students', {screen: 'Student'});
           }
-          if (response.type === 'admin') {
-            props.navigation.navigate('Root', {screen: 'Admin'});
-          }
         } else {
           props.navigation.navigate('Auth');
         }

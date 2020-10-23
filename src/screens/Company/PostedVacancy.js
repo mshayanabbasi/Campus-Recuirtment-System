@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, FlatList} from 'react-native';
-import {Card, Text, Button} from 'react-native-elements';
+import {Card, Text} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {allDataOfVacancies} from '../../store/actions/vacancyActions';

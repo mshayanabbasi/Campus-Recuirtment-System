@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, ScrollView} from 'react-native';
+import {Alert, Button, ScrollView} from 'react-native';
 import {Text, Input, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {Formik} from 'formik';
@@ -17,6 +17,7 @@ const CompanyRegistration = (props) => {
       email: props.user.email,
       type: props.user.type,
     });
+    Alert.alert('Successfully Add');
     props.navigation.navigate('Students', {screen: 'Student'});
   };
   return (

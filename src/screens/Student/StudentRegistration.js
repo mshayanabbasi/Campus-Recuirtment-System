@@ -87,7 +87,6 @@ import {connect} from 'react-redux';
 // import { UpdationRequest } from '../../store/actions/adminActions';
 import {addNewStudent} from '../../store/actions/studentActions';
 import {Formik} from 'formik';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const StudentRegistration = (props) => {
   console.log('Student Registration', props);
@@ -113,6 +112,7 @@ const StudentRegistration = (props) => {
       type: props.user.type,
       phoneNumber,
     });
+    Alert.alert('Successfully Add');
     props.navigation.navigate('Companies', {screen: 'Company'});
   };
   return (

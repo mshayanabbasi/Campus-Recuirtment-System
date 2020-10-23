@@ -28,7 +28,9 @@ export const LOGIN = ({email, password}, navigation) => {
       .signInWithEmailAndPassword(email, password)
       .then((data) => {
         console.log('data', data);
-
+        if (email === 'admin@gmail.com' && password === 'admin12345') {
+          navigation.navigate('Root', {screen: 'Admin'});
+        }
         const userId = auth().currentUser.uid;
         database()
           .ref()
@@ -46,9 +48,6 @@ export const LOGIN = ({email, password}, navigation) => {
             }
             if (type === 'company') {
               navigation.navigate('Students', {screen: 'Student'});
-            }
-            if (type === 'admin') {
-              navigation.navigate('Root', {screen: 'Admin'});
             }
           });
 
@@ -144,4 +143,3 @@ export const SIGNOUT = (navigation) => {
     }
   };
 };
-

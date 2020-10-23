@@ -3,7 +3,7 @@ import {Card, Input, Button, Text} from 'react-native-elements';
 import {Formik} from 'formik';
 import {connect} from 'react-redux';
 import {addNewVacancy} from '../../store/actions/vacancyActions';
-import {ScrollView} from 'react-native';
+import {Alert, ScrollView} from 'react-native';
 import {allDataOfCompanies} from '../../store/actions/companyActions';
 
 const PostVacany = (props) => {
@@ -24,6 +24,7 @@ const PostVacany = (props) => {
       cname: props.currentCompany?.cname,
       companyID: props.currentCompany?.companyID,
     });
+    Alert.alert('Successfully Add');
     props.navigation.navigate('Student');
   };
 
